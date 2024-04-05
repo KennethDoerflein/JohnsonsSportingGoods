@@ -1,0 +1,20 @@
+body,
+html {
+  height: 100vh !important;
+}
+#navbar a {
+  margin: 0px 5px 0px 5px;
+}
+#navbar a:hover {
+  color: #276455;
+}
+footer {
+  padding: 25px 0px 25px 0px;
+  height: 120px;
+}
+#mainContainer {
+  min-height: calc(100vh - 120px) !important;
+}
+footer hr {
+  margin: 20px 0px 20px 0px;
+}
