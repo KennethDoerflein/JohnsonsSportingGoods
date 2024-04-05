@@ -4,8 +4,9 @@ from django.template import loader
 
 
 def index(request):
+    testCardAmt = range(11)
     template = loader.get_template("index.html")
-    return HttpResponse(template.render())
+    return HttpResponse(template.render({"testCardAmt": testCardAmt}))
 
 
 def cart(request):

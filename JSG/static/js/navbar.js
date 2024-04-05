@@ -1,5 +1,5 @@
 const navbarHTML = `
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="mb-4 navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand" href="/"><img src="/static/assets/johnsonLogo.png" height=50px></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
