@@ -19,8 +19,12 @@ const navbarHTML = `
 </nav>
 `;
 const footerHTML = `
-<hr class="my-5">
-</nav>
+<footer>
+  <div class="container-fluid">
+    <hr>
+    Footer
+  </div>
+</footer>
 `;
 
 window.onload = document.getElementById("navbar").innerHTML = navbarHTML;
