@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
+from .models import Product
 
 
 def index(request):
-    testCardAmt = range(11)
+    products = Product.objects.all().values()
     template = loader.get_template("index.html")
-    return HttpResponse(template.render({"testCardAmt": testCardAmt}))
+    return HttpResponse(template.render({"products": products}))
 
 
 def cart(request):

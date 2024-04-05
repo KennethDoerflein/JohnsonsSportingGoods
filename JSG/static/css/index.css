@@ -1,0 +1,12 @@
+.card img {
+  max-height: 200px;
+  padding: 25px;
+}
+.card {
+  width: 18rem;
+}
+.productIMGContainer {
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+}

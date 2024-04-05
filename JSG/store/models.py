@@ -1,3 +1,15 @@
+import os
+from django.conf import settings
 from django.db import models
 
 # Create your models here.
+
+
+class Product(models.Model):
+    name = models.CharField(max_length=255)
+    price = models.FloatField()
+    quantity = models.IntegerField()
+    image = models.CharField(
+        max_length=255,
+        default="/static/assets/johnsonLogo.png",
+    )
