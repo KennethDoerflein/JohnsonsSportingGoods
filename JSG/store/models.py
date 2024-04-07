@@ -13,3 +13,17 @@ class Product(models.Model):
         max_length=255,
         default="/static/assets/johnsonLogo.png",
     )
+
+
+class Customer(models.Model):
+    fName = models.CharField(max_length=255)
+    lName = models.CharField(max_length=255)
+    email = models.EmailField(max_length=255)
+    password = models.CharField(max_length=255)
+
+
+class Cart(models.Model):
+    CID = models.BigIntegerField()
+    PID = models.BigIntegerField()
+    qty = models.IntegerField()
+    password = models.CharField(max_length=255)
