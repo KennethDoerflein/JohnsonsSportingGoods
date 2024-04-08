@@ -18,10 +18,11 @@
     <div id="mainContainer">
       {% include './components/navbar.html' %}
       <div id="loginContainer" class="mx-auto">
-        <form action="" method="post">
+        <form action="login" method="post">
           {% csrf_token %} {{form}}
-          <input class="btn btn-secondary" type="submit" value="Log in" />
+          <button class="btn btn-secondary mt-2" type="submit">Log in</button>
         </form>
+        <a class="btn btn-info mt-2" href="register" type="button">Register</a>
       </div>
     </div>
     {% include './components/footer.html' %}

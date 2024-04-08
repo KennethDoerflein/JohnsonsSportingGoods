@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JSG</title>
-    <link rel="stylesheet" href="/static/css/index.css" />
+    <link rel="stylesheet" href="/static/css/register.css" />
     <link rel="stylesheet" href="/static/css/navbar_footer.css" />
     <link rel="icon" type="image/x-icon" href="/static/assets/johnsonLogo.png" />
     <link
@@ -16,27 +16,13 @@
   </head>
   <body>
     <div id="mainContainer">
-      {% include './components/navbar.html' %} 
-      {% if request.user.is_authenticated %}
-      <div class="text-center">
-        Logged in as: {{ request.user.username }}
-      </div>
-      {% endif %}
-      <div class="container-fluid mx-auto row text-center row-cols-sm-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4">
-        {% for i in products %}
-        <div class="col mb-3 g-2">
-          <div class="card mx-auto h-100">
-            <div class="productIMGContainer">
-              <img src="{{ i.image }}" class="card-img-top" alt="{{ i.name }} image" />
-            </div>
-            <div class="card-body mt-auto">
-              <h5 class="card-title">{{ i.name }}</h5>
-              <p class="card-text">${{ i.price|floatformat:2 }}</p>
-              <a href="#" class="btn btn-primary">Add to Cart</a>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
+      {% include './components/navbar.html' %}
+      <div id="RegisterContainer" class="mx-auto">
+        <form action="register" method="post">
+          {% csrf_token %} {{form}}
+          <button class="btn btn-secondary mt-4" type="submit">Register</button>
+        </form>
+        <a class="btn btn-info mt-2" href="login" type="button">Log in</a>
       </div>
     </div>
     {% include './components/footer.html' %}
