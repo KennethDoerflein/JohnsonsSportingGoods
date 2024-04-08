@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
 from .models import Product
-from .forms import LoginForm
+from .forms import RegistrationForm
+from django.contrib.auth.models import Group
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login as auth_login, logout as auth_logout, authenticate
 
@@ -39,8 +40,13 @@ def login(request):
         # form["form"] = LoginForm()
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
-            auth_login(request, form.get_user())
-            return redirect("index")
+            formUsername = form.cleaned_data.get("username")
+            formPassword = form.cleaned_data.get("password")
+            user = authenticate(request, username=formUsername, password=formPassword)
+            # user = form.get_user()
+            if user is not None:
+                auth_login(request, user)
+                return redirect("index")
     else:
         form = AuthenticationForm()
     return render(request, "login.html", {"form": form})
@@ -48,12 +54,15 @@ def login(request):
 
 def register(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = RegistrationForm(request.POST)
         if form.is_valid():
-            auth_login(request, form.save())
+            groupID = Group.objects.get(name="Customer")
+            user = form.save()
+            groupID.user_set.add(user)
+            auth_login(request, user)
             return redirect("index")
     else:
-        form = UserCreationForm()
+        form = RegistrationForm()
     return render(request, "register.html", {"form": form})
 
 
