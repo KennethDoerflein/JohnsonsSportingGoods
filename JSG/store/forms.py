@@ -25,6 +25,12 @@ class RegistrationForm(UserCreationForm):
 
     def clean_email(self):
         formEmail = self.cleaned_data.get("email")
-        if User.objects.filter(email=formEmail).exists():
+        if User.objects.filter(email=formEmail.lower()).exists():
             raise ValidationError("An account is already registered with that email")
         return formEmail.lower()
+
+    def clean_username(self):
+        formUsername = self.cleaned_data.get("username")
+        if User.objects.filter(username=formUsername.lower()).exists():
+            raise ValidationError("A user with that username already exists.")
+        return formUsername.lower()

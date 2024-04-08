@@ -38,7 +38,9 @@ def login(request):
         #         return redirect("index")
         # form = {}
         # form["form"] = LoginForm()
-        form = AuthenticationForm(data=request.POST)
+        copyRequest = request.POST.copy()
+        copyRequest["username"] = copyRequest["username"].lower()
+        form = AuthenticationForm(data=copyRequest)
         if form.is_valid():
             formUsername = form.cleaned_data.get("username")
             formPassword = form.cleaned_data.get("password")
