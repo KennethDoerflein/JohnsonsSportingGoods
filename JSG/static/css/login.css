@@ -1,6 +1,25 @@
 #loginContainer {
-  max-width: 25rem;
+  max-width: 22rem;
   background-color: #414346;
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 2rem;
+}
+.errorlist {
+  color: rgb(241, 77, 77);
+  font-weight: bolder;
+}
+.loginForm {
+  margin-left: 1rem;
+}
+.loginForm input {
+  padding: 0.5rem;
+  margin-left: 2rem;
+  max-width: 12rem;
+}
+.loginForm #id_password {
+  margin-left: 2.3rem;
+  margin-top: 1rem;
+}
+#registerLink {
+  margin-left: 0.6rem;
 }

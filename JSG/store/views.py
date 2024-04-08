@@ -29,15 +29,21 @@ def orderConfirmation(request):
 
 def login(request):
     if request.method == "POST":
-        username = request.POST["username"]
-        password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            auth_login(request, user)
+        #     username = request.POST["username"]
+        #     password = request.POST["password"]
+        #     user = authenticate(request, username=username, password=password)
+        #     if user is not None:
+        #         auth_login(request, user)
+        #         return redirect("index")
+        # form = {}
+        # form["form"] = LoginForm()
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            auth_login(request, form.get_user())
             return redirect("index")
-    form = {}
-    form["form"] = LoginForm()
-    return render(request, "login.html", form)
+    else:
+        form = AuthenticationForm()
+    return render(request, "login.html", {"form": form})
 
 
 def register(request):
@@ -46,7 +52,8 @@ def register(request):
         if form.is_valid():
             auth_login(request, form.save())
             return redirect("index")
-    form = UserCreationForm()
+    else:
+        form = UserCreationForm()
     return render(request, "register.html", {"form": form})
 
 

@@ -4,3 +4,20 @@
   padding: 2rem;
   border-radius: 2rem;
 }
+.errorlist {
+  color: rgb(241, 77, 77);
+  font-weight: bolder;
+}
+#loginLink {
+  margin-left: 0.35rem;
+}
+
+.registrationForm input {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  max-width: 12rem;
+}
+#id_password1 {
+  margin-top: -5px;
+}

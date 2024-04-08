@@ -2,11 +2,11 @@ body,
 html {
   height: 100vh !important;
 }
-#navbar a {
+.navbar a {
   margin: 0px 5px 0px 5px;
 }
-#navbar a:hover {
-  color: #276455;
+.navbar a:hover {
+  color: #276455 !important;
 }
 footer {
   padding: 25px 0px 25px 0px;
