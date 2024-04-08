@@ -8,6 +8,9 @@ html {
 .navbar a:hover {
   color: #276455 !important;
 }
+.navbar button:hover {
+  color: #276455 !important;
+}
 footer {
   padding: 25px 0px 25px 0px;
   height: 120px;

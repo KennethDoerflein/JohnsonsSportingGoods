@@ -7,17 +7,29 @@
 .errorlist {
   color: rgb(241, 77, 77);
   font-weight: bolder;
+  margin-bottom: 0px;
 }
-#loginLink {
-  margin-left: 0.35rem;
-}
-
 .registrationForm input {
   margin-top: 0.5rem;
   margin-bottom: 1rem;
   padding: 0.5rem;
-  max-width: 12rem;
+  max-width: 20rem;
+  border-radius: 1rem;
+}
+.registrationForm label {
+  display: block;
 }
 #id_password1 {
   margin-top: -5px;
+}
+#id_last_name {
+  margin-bottom: 3rem;
+}
+.registrationForm label {
+  margin-top: 0.5rem;
+  font-weight: bolder;
+  text-decoration: underline;
+}
+.helptext {
+  color: rgb(208, 202, 236);
 }
