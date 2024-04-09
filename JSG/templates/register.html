@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JSG</title>
-    <link rel="stylesheet" href="/static/css/login.css" />
+    <link rel="stylesheet" href="/static/css/register.css" />
     <link rel="stylesheet" href="/static/css/navbar_footer.css" />
     <link rel="icon" type="image/x-icon" href="/static/assets/johnsonLogo.png" />
     <link
@@ -17,15 +17,15 @@
   <body>
     <div id="mainContainer">
       {% include './components/navbar.html' %}
-      <div id="loginContainer" class="mx-auto">
-        <form class="loginForm" action="login" method="post">
+      <div id="RegisterContainer" class="mx-auto mt-5">
+        <form class="registrationForm" action="register" method="post">
           {% csrf_token %} {{form}}
           <div class="text-center">
-            <button class="btn btn-info mt-4 btn-lg" type="submit">Log in</button>
+            <button class="btn btn-info mt-4 btn-lg" type="submit">Register</button>
           </div>
         </form>
         <div class="text-center">
-          <a id="registerLink" class="btn btn-secondary mt-4 btn-sm" href="register" type="button">Register</a>
+          <a id="loginLink" class="btn btn-secondary mt-4 btn-sm" href="login" type="button">Log in</a>
         </div>
       </div>
     </div>

@@ -20,9 +20,18 @@
         <li class="nav-item">
           <a class="nav-link fs-3" href="/cart"><strong>Cart</strong></a>
         </li>
+        {% if not request.user.is_authenticated %}
         <li class="nav-item">
           <a class="nav-link fs-3" href="/login"><strong>Log in</strong></a>
         </li>
+        {% endif %} {% if request.user.is_authenticated %}
+        <li class="nav-item">
+          <form action="logout" method="post">
+            {% csrf_token %}
+            <button class="nav-link fs-3" type="submit"><strong>Log out</strong></button>
+          </form>
+        </li>
+        {% endif %}
       </ul>
     </div>
   </div>

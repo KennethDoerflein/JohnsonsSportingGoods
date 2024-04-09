@@ -16,7 +16,9 @@
   </head>
   <body>
     <div id="mainContainer">
-      {% include './components/navbar.html' %}
+      {% include './components/navbar.html' %} {% if request.user.is_authenticated %}
+      <h1 class="text-center">Logged in as: {{ request.user.username}}, User ID: {{ request.user.id}}</h1>
+      {% endif %}
       <div class="container-fluid mx-auto row text-center row-cols-sm-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4">
         {% for i in products %}
         <div class="col mb-3 g-2">
