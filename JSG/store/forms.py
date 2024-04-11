@@ -24,13 +24,25 @@ class RegistrationForm(UserCreationForm):
         )
 
     def clean_email(self):
-        formEmail = self.cleaned_data.get("email")
+        formEmail = super(UserCreationForm, self).clean()["email"]
         if User.objects.filter(email=formEmail.lower()).exists():
             raise ValidationError("An account is already registered with that email.")
         return formEmail.lower()
 
     def clean_username(self):
-        formUsername = self.cleaned_data.get("username")
+        formUsername = super(UserCreationForm, self).clean()["username"]
         if User.objects.filter(username=formUsername.lower()).exists():
             raise ValidationError("A user with that username already exists.")
+        return formUsername.lower()
+
+
+class LoginForm(AuthenticationForm):
+    error_messages = {
+        "invalid_login": "Please check you are entering the correct password. Note that password is case-sensitive.",
+    }
+
+    def clean_username(self):
+        formUsername = super(AuthenticationForm, self).clean()["username"]
+        if not User.objects.filter(username=formUsername.lower()).exists():
+            raise ValidationError("A user with that username does not exists")
         return formUsername.lower()
