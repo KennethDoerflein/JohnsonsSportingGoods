@@ -15,7 +15,7 @@
 
 **Normal use (list may not be complete)**
 1. Activate the virtual environment `JSG_venv\Scripts\activate`
-2. Start Django server: `py manage.py runserver`
+2. Start Django server: `py manage.py runserver` or `python manage.py runserver`
 3. Visit `http://127.0.0.1:8000`
 
 ### Test User account
