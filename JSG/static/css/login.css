@@ -24,3 +24,6 @@
   font-weight: bolder;
   text-decoration: underline;
 }
+.toolTip {
+  padding-bottom: 30px;
+}
