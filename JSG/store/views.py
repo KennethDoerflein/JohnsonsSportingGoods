@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
 from .models import Product
-from .forms import RegistrationForm
+from .forms import RegistrationForm, LoginForm
 from django.contrib.auth.models import Group
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login, logout as auth_logout, authenticate
@@ -23,9 +23,7 @@ def orderConfirmation(request):
 
 def login(request):
     if request.method == "POST":
-        copyRequest = request.POST.copy()
-        copyRequest["username"] = copyRequest["username"].lower()
-        form = AuthenticationForm(data=copyRequest)
+        form = LoginForm(data=request.POST)
         if form.is_valid():
             formUsername = form.cleaned_data.get("username")
             formPassword = form.cleaned_data.get("password")
@@ -34,7 +32,7 @@ def login(request):
                 auth_login(request, user)
                 return redirect("index")
     else:
-        form = AuthenticationForm()
+        form = LoginForm()
     return render(request, "login.html", {"form": form})
 
 
