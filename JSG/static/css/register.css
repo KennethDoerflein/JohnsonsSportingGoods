@@ -33,3 +33,6 @@
 .helptext {
   color: rgb(208, 202, 236);
 }
+.toolTip {
+  padding-bottom: 30px;
+}

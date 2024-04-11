@@ -21,7 +21,9 @@
         <form class="registrationForm" action="register" method="post">
           {% csrf_token %} {{form}}
           <div class="text-center">
-            <button class="btn btn-info mt-4 btn-lg" type="submit">Register</button>
+            <span class="toolTip" data-bs-toggle="tooltip" data-bs-title="Please fill out the required fields." id="ToolTipRegister">
+              <button disabled class="btn btn-info mt-4 btn-lg" type="submit" id="registerButton">Register</button>
+            </span>
           </div>
         </form>
         <div class="text-center">
@@ -35,5 +37,6 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
+    <script src="/static/js/register.js"></script>
   </body>
 </html>
