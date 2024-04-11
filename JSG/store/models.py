@@ -18,4 +18,3 @@ class Cart(models.Model):
     CID = models.BigIntegerField()
     PID = models.BigIntegerField()
     qty = models.IntegerField()
-    password = models.CharField(max_length=255)
