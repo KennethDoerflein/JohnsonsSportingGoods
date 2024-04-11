@@ -17,7 +17,14 @@
   <body>
     <div id="mainContainer">
       {% include './components/navbar.html' %}
-       I am the cart page
+      <h1>Your Cart</h1>
+      <ul>
+          {% for cart_item in cart_items %}
+              <li>{{ cart_item.name }} - Quantity: {{ cart_item.qty }} - Price: ${{ cart_item.price|floatformat:2 }}</li>
+          {% endfor %}
+          <br><li><strong>Total: ${{ total_cost|floatformat:2 }}</strong></li>
+      </ul>
+      Then add address and stuff
     </div>
     {% include './components/footer.html' %}
 
