@@ -20,7 +20,6 @@ function validateForm(self) {
   var loginButton = document.getElementById("registerButton");
 
   var emailRegex = RegExp(/^\w+([\.-]?(?=(\w+))\1)*@\w+([\.-]?(?=(\w+))\1)*(\.\w{2,3})+$/).test(email.value);
-  console.log(emailRegex);
 
   if (username !== "" && email.value !== "" && emailRegex && fName !== "" && lName !== "" && password1.value !== "" && password2.value !== "" && password1.value === password2.value) {
     bootstrap.Tooltip.getInstance(toolTip).disable();
@@ -31,6 +30,8 @@ function validateForm(self) {
   }
   if (password1.value !== "" && password2.value !== "") {
     if (password1.value !== password2.value) {
+      password1.classList.add("inputERR");
+      password2.classList.add("inputERR");
       if (self.target === password2) {
         password2.setCustomValidity("Passwords do not match.");
         password2.reportValidity();
@@ -41,15 +42,19 @@ function validateForm(self) {
     } else {
       password2.setCustomValidity("");
       password1.setCustomValidity("");
+      password1.classList.remove("inputERR");
+      password2.classList.remove("inputERR");
     }
   }
 
   if (email.value !== "") {
     if (!emailRegex) {
+      email.classList.add("inputERR");
       email.setCustomValidity("Email is not formatted correctly.");
       email.reportValidity();
     } else {
       email.setCustomValidity("");
+      email.classList.remove("inputERR");
     }
   }
 }
