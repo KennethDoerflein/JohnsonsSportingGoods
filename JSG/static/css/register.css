@@ -36,3 +36,6 @@
 .toolTip {
   padding-bottom: 30px;
 }
+.inputERR {
+  background-color: #b83a3a;
+}
