@@ -54,7 +54,6 @@ function validateForm() {
 }
 
 function checkUsername(self) {
-  var username = document.getElementById("id_username");
   var usernameHelpText = document.getElementById("id_username_helptext");
   fetch("checkTaken?username=" + self.target.value)
     .then((response) => response.text())
@@ -62,25 +61,16 @@ function checkUsername(self) {
       var status = JSON.parse(text)["used"];
       if (self.target.value !== "") {
         if (status === "true") {
-          username.classList.add("inputERR");
-          username.classList.remove("inputGood");
+          setUsernameUsedStyling("bad");
           usernameUnused = false;
-          usernameHelpText.classList.add("helptextBad");
-          usernameHelpText.classList.remove("helptext");
           usernameHelpText.innerText = "That username is already in use";
         } else {
           usernameUnused = true;
-          username.classList.add("inputGood");
-          username.classList.remove("inputERR");
+          setUsernameUsedStyling("good");
           usernameHelpText.innerText = "That looks good";
-          usernameHelpText.classList.remove("helptextBad");
-          usernameHelpText.classList.add("helptext");
         }
       } else {
-        username.classList.remove("inputERR");
-        username.classList.remove("inputGood");
-        usernameHelpText.classList.remove("helptextBad");
-        usernameHelpText.classList.add("helptext");
+        setUsernameUsedStyling("original");
         usernameHelpText.innerText = "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.";
         usernameUnused = false;
       }
@@ -90,23 +80,16 @@ function checkUsername(self) {
 }
 
 function checkEmail(self) {
-  var email = document.getElementById("id_email");
   var emailHelpText = document.getElementById("id_email_helptext");
-  var emailRegex = RegExp(/^\w+([\.-]?(?=(\w+))\1)*@\w+([\.-]?(?=(\w+))\1)*(\.\w{2,3})+$/).test(email.value);
+  var emailRegex = RegExp(/^\w+([\.-]?(?=(\w+))\1)*@\w+([\.-]?(?=(\w+))\1)*(\.\w{2,3})+$/).test(self.target.value);
   if (!emailRegex) {
-    if (email.value === "") {
+    if (self.target.value === "") {
       emailUnused = false;
-      email.classList.remove("inputGood");
-      email.classList.remove("inputERR");
-      emailHelpText.classList.remove("helptextBad");
-      emailHelpText.classList.add("helptext");
+      setEmailUsedStyling("original");
       emailHelpText.innerText = "Required: Enter a email in the format example@example.com";
     } else {
       emailUnused = true;
-      email.classList.add("inputERR");
-      email.classList.remove("inputGood");
-      emailHelpText.classList.add("helptextBad");
-      emailHelpText.classList.remove("helptext");
+      setEmailUsedStyling("bad");
       emailHelpText.innerText = "Email is not in the correct format, ex: example@example.com";
     }
   } else {
@@ -116,18 +99,12 @@ function checkEmail(self) {
         var status = JSON.parse(text)["used"];
         if (self.target.value !== "") {
           if (status === "true") {
-            email.classList.add("inputERR");
-            email.classList.remove("inputGood");
-            emailHelpText.classList.add("helptextBad");
-            emailHelpText.classList.remove("helptext");
+            setEmailUsedStyling("bad");
             emailUnused = false;
             emailHelpText.innerText = "That email is already in use";
           } else if (emailRegex) {
-            email.classList.add("inputGood");
-            email.classList.remove("inputERR");
+            setEmailUsedStyling("good");
             emailUnused = true;
-            emailHelpText.classList.remove("helptextBad");
-            emailHelpText.classList.add("helptext");
             emailHelpText.innerText = "That looks good";
           }
         }
@@ -159,4 +136,44 @@ function checkPassword(self) {
     }
   }
   validateForm();
+}
+function setEmailUsedStyling(used) {
+  var email = document.getElementById("id_email");
+  var emailHelpText = document.getElementById("id_email_helptext");
+  if (used === "bad") {
+    email.classList.add("inputERR");
+    email.classList.remove("inputGood");
+    emailHelpText.classList.add("helptextBad");
+    emailHelpText.classList.remove("helptext");
+  } else if (used === "good") {
+    email.classList.add("inputGood");
+    email.classList.remove("inputERR");
+    emailHelpText.classList.remove("helptextBad");
+    emailHelpText.classList.add("helptext");
+  } else {
+    email.classList.remove("inputGood");
+    email.classList.remove("inputERR");
+    emailHelpText.classList.remove("helptextBad");
+    emailHelpText.classList.add("helptext");
+  }
+}
+function setUsernameUsedStyling(used) {
+  var username = document.getElementById("id_username");
+  var usernameHelpText = document.getElementById("id_username_helptext");
+  if (used === "bad") {
+    username.classList.add("inputERR");
+    username.classList.remove("inputGood");
+    usernameHelpText.classList.add("helptextBad");
+    usernameHelpText.classList.remove("helptext");
+  } else if (used === "good") {
+    username.classList.add("inputGood");
+    username.classList.remove("inputERR");
+    usernameHelpText.classList.remove("helptextBad");
+    usernameHelpText.classList.add("helptext");
+  } else {
+    username.classList.remove("inputGood");
+    username.classList.remove("inputERR");
+    usernameHelpText.classList.remove("helptextBad");
+    usernameHelpText.classList.add("helptext");
+  }
 }
