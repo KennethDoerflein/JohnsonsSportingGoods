@@ -18,7 +18,7 @@
     <div id="mainContainer">
       {% include './components/navbar.html' %}
       <div id="RegisterContainer" class="mx-auto mt-5">
-        <form class="registrationForm" action="register" method="post">
+        <form id="registrationForm" class="registrationForm" action="register" method="post">
           {% csrf_token %} {{form}}
           <div class="text-center">
             <span class="toolTip" data-bs-toggle="tooltip" data-bs-title="Please fill out the required fields." id="ToolTipRegister">
