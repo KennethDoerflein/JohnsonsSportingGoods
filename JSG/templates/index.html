@@ -16,8 +16,7 @@
   </head>
   <body>
     <div id="mainContainer">
-      {% include './components/navbar.html' %} 
-      {% if request.user.is_authenticated %}
+      {% include './components/navbar.html' %} {% if request.user.is_authenticated %}
       <h1 class="text-center">Logged in as: {{ request.user.username}}, User ID: {{ request.user.id}}</h1>
       {% endif %}
       <div class="container-fluid mx-auto row text-center row-cols-sm-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4">
@@ -29,8 +28,13 @@
             </div>
             <div class="card-body mt-auto">
               <h5 class="card-title">{{ i.name }}</h5>
-              <p class="card-text">${{ i.price|floatformat:2 }}</p>
-              <a href="#" class="btn btn-primary">Add to Cart</a>
+            </div>
+            <div class="card-footer mt-auto">
+              <p class="card-text fs-3">${{ i.price|floatformat:2 }}</p>
+              <p class="card-text">Only <strong>{{ i.quantity }}</strong> left!</p>
+              {% csrf_token %}
+              <input type="number" class="form-control mb-3 text-center" name="quantity" placeholder="Quantity" value="1" />
+              <button type="submit" class="btn btn-primary mt-auto w-100 my-2">Add to Cart</button>
             </div>
           </div>
         </div>

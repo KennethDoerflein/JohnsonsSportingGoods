@@ -1,6 +1,7 @@
 .card img {
   max-height: 200px;
-  padding: 25px;
+  object-fit: contain;
+  padding: 10px;
 }
 .card {
   width: 18rem;
@@ -9,4 +10,18 @@
   min-height: 200px;
   display: flex;
   align-items: center;
+}
+.form-control {
+  max-width: 40%;
+  margin-left: 30%;
+  margin-right: 30%;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  opacity: 1;
+}
+/* Firefox */
+input[type="number"] {
+  opacity: 1;
 }
