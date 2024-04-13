@@ -36,3 +36,13 @@
 .toolTip {
   padding-bottom: 30px;
 }
+.inputERR {
+  background-color: #b83a3a;
+}
+.inputGood {
+  background-color: #3d643d;
+}
+.helptextBad {
+  font-weight: bold;
+  color: rgb(233, 33, 33) !important;
+}

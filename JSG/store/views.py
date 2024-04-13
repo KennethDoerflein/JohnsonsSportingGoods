@@ -4,8 +4,9 @@ from django.template import loader
 from .models import Product, Cart
 from django.db.models import Sum
 from .forms import RegistrationForm, LoginForm
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 from django.contrib.auth import login as auth_login, logout as auth_logout, authenticate
+from django.http import JsonResponse
 
 
 def index(request):
@@ -92,3 +93,15 @@ def add_to_cart(request):
         Cart.objects.create(CID=customer_id, PID=product_id, qty=quantity)
 
         return redirect('index')
+
+def checkTaken(request):
+    username = request.GET.get("username")
+    email = request.GET.get("email")
+    if username is not None:
+        if User.objects.filter(username=username.lower()).exists():
+            return JsonResponse({"used": "true"})
+        return JsonResponse({"used": "false"})
+    elif email is not None:
+        if User.objects.filter(email=email.lower()).exists():
+            return JsonResponse({"used": "true"})
+        return JsonResponse({"used": "false"})
