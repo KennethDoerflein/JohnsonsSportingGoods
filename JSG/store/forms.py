@@ -5,10 +5,10 @@ from django.core.exceptions import ValidationError
 
 
 class RegistrationForm(UserCreationForm):
-    first_name = forms.CharField(max_length=255, help_text="Required")
-    last_name = forms.CharField(max_length=255, help_text="Required")
+    first_name = forms.CharField(max_length=150, help_text="Required")
+    last_name = forms.CharField(max_length=150, help_text="Required")
     email = forms.EmailField(
-        max_length=255,
+        max_length=150,
         help_text="Required: Enter a email in the format example@example.com",
     )
 
