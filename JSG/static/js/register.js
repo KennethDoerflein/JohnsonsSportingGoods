@@ -4,15 +4,15 @@ const tooltipList = [...tooltipTriggerList].map((tooltipTriggerEl) => new bootst
 var emailUnused = false;
 var usernameUnused = false;
 
-document.getElementById("id_first_name").oninput = validateForm;
-document.getElementById("id_last_name").oninput = validateForm;
+document.getElementById("id_first_name").onkeyup = validateForm;
+document.getElementById("id_last_name").onkeyup = validateForm;
 
-document.getElementById("id_password1").oninput = checkPassword;
-document.getElementById("id_password2").oninput = checkPassword;
+document.getElementById("id_password1").onkeyup = checkPassword;
+document.getElementById("id_password2").onkeyup = checkPassword;
 
-document.getElementById("id_username").oninput = checkUsername;
+document.getElementById("id_username").onkeyup = checkUsername;
 
-document.getElementById("id_email").oninput = checkEmail;
+document.getElementById("id_email").onkeyup = checkEmail;
 
 function validateForm() {
   var username = document.getElementById("id_username").value;
