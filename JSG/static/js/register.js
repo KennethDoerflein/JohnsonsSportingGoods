@@ -61,16 +61,16 @@ function checkUsername(self) {
       var status = JSON.parse(text)["used"];
       if (self.target.value !== "") {
         if (status === "true") {
-          setUsernameUsedStyling("bad");
+          setUsedStyling("bad", self.target, usernameHelpText);
           usernameUnused = false;
           usernameHelpText.innerText = "That username is already in use";
         } else {
           usernameUnused = true;
-          setUsernameUsedStyling("good");
+          setUsedStyling("good", self.target, usernameHelpText);
           usernameHelpText.innerText = "That looks good";
         }
       } else {
-        setUsernameUsedStyling("original");
+        setUsedStyling("original", self.target, usernameHelpText);
         usernameHelpText.innerText = "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.";
         usernameUnused = false;
       }
@@ -85,11 +85,11 @@ function checkEmail(self) {
   if (!emailRegex) {
     if (self.target.value === "") {
       emailUnused = false;
-      setEmailUsedStyling("original");
+      setUsedStyling("original", self.target, emailHelpText);
       emailHelpText.innerText = "Required: Enter a email in the format example@example.com";
     } else {
       emailUnused = true;
-      setEmailUsedStyling("bad");
+      setUsedStyling("bad", self.target, emailHelpText);
       emailHelpText.innerText = "Email is not in the correct format, ex: example@example.com";
     }
   } else {
@@ -99,11 +99,11 @@ function checkEmail(self) {
         var status = JSON.parse(text)["used"];
         if (self.target.value !== "") {
           if (status === "true") {
-            setEmailUsedStyling("bad");
+            setUsedStyling("bad", self.target, emailHelpText);
             emailUnused = false;
             emailHelpText.innerText = "That email is already in use";
           } else if (emailRegex) {
-            setEmailUsedStyling("good");
+            setUsedStyling("good", self.target, emailHelpText);
             emailUnused = true;
             emailHelpText.innerText = "That looks good";
           }
@@ -137,43 +137,21 @@ function checkPassword(self) {
   }
   validateForm();
 }
-function setEmailUsedStyling(used) {
-  var email = document.getElementById("id_email");
-  var emailHelpText = document.getElementById("id_email_helptext");
+function setUsedStyling(used, input, helpText) {
   if (used === "bad") {
-    email.classList.add("inputERR");
-    email.classList.remove("inputGood");
-    emailHelpText.classList.add("helptextBad");
-    emailHelpText.classList.remove("helptext");
+    input.classList.add("inputERR");
+    input.classList.remove("inputGood");
+    helpText.classList.add("helptextBad");
+    helpText.classList.remove("helptext");
   } else if (used === "good") {
-    email.classList.add("inputGood");
-    email.classList.remove("inputERR");
-    emailHelpText.classList.remove("helptextBad");
-    emailHelpText.classList.add("helptext");
+    input.classList.add("inputGood");
+    input.classList.remove("inputERR");
+    helpText.classList.remove("helptextBad");
+    helpText.classList.add("helptext");
   } else {
-    email.classList.remove("inputGood");
-    email.classList.remove("inputERR");
-    emailHelpText.classList.remove("helptextBad");
-    emailHelpText.classList.add("helptext");
-  }
-}
-function setUsernameUsedStyling(used) {
-  var username = document.getElementById("id_username");
-  var usernameHelpText = document.getElementById("id_username_helptext");
-  if (used === "bad") {
-    username.classList.add("inputERR");
-    username.classList.remove("inputGood");
-    usernameHelpText.classList.add("helptextBad");
-    usernameHelpText.classList.remove("helptext");
-  } else if (used === "good") {
-    username.classList.add("inputGood");
-    username.classList.remove("inputERR");
-    usernameHelpText.classList.remove("helptextBad");
-    usernameHelpText.classList.add("helptext");
-  } else {
-    username.classList.remove("inputGood");
-    username.classList.remove("inputERR");
-    usernameHelpText.classList.remove("helptextBad");
-    usernameHelpText.classList.add("helptext");
+    input.classList.remove("inputGood");
+    input.classList.remove("inputERR");
+    helpText.classList.remove("helptextBad");
+    helpText.classList.add("helptext");
   }
 }

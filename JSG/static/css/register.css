@@ -45,4 +45,5 @@
 .helptextBad {
   font-weight: bold;
   color: rgb(233, 33, 33) !important;
+  text-shadow: black 0px 0px 10px;
 }
