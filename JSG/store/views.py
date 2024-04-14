@@ -58,13 +58,14 @@ def logout(request):
 
 
 def checkTaken(request):
-    username = request.GET.get("username")
-    email = request.GET.get("email")
-    if username is not None:
-        if User.objects.filter(username=username.lower()).exists():
-            return JsonResponse({"used": "true"})
-        return JsonResponse({"used": "false"})
-    elif email is not None:
-        if User.objects.filter(email=email.lower()).exists():
-            return JsonResponse({"used": "true"})
-        return JsonResponse({"used": "false"})
+    if request.GET:
+        username = request.GET.get("username")
+        email = request.GET.get("email")
+        if username is not None:
+            if User.objects.filter(username=username.lower()).exists():
+                return JsonResponse({"used": "true"})
+            return JsonResponse({"used": "false"})
+        elif email is not None:
+            if User.objects.filter(email=email.lower()).exists():
+                return JsonResponse({"used": "true"})
+            return JsonResponse({"used": "false"})
