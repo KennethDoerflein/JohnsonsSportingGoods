@@ -32,13 +32,13 @@ def orderConfirmation(request):
             cart_items = Cart.objects.filter(CID=userID)
             orderDetails = {}
             for item in cart_items:
-                orderDetails += {
-                    "name": item.name,
-                    "price": item.price,
-                    "qty": item.qty,
-                    "subtotal": item.price * item.qty,
-                }
                 currentProduct = Product.objects.get(PID=item.PID)
+                orderDetails += {
+                    "name": currentProduct.name,
+                    "price": currentProduct.price,
+                    "qty": item.qty,
+                    "subtotal": currentProduct.price * item.qty,
+                }
                 newQty = currentProduct.quantity - item.qty
                 if newQty >= 0:
                     currentProduct.quantity = newQty
