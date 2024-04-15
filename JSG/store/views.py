@@ -17,40 +17,39 @@ def cart(request):
 
 
 def orderConfirmation(request):
-    if request.method == "POST":
-        if request.user.is_authenticated:
-            form = request.POST
-            orderForm = {
-                "shippingAddr": form.get("shipping_addr"),
-                "recipient": form.get("recipient"),
-                "billingAddr": form.get("billing_addr"),
-                "billingName": form.get("billing_name"),
-                "date": date.today(),
+    if request.method == "POST" and request.user.is_authenticated:
+        form = request.POST
+        orderForm = {
+            "shippingAddr": form.get("shipping_addr"),
+            "recipient": form.get("recipient"),
+            "billingAddr": form.get("billing_addr"),
+            "billingName": form.get("billing_name"),
+            "date": date.today(),
+        }
+
+        userID = request.user.id
+        cart_items = Cart.objects.filter(CID=userID)
+        orderDetails = {}
+        for item in cart_items:
+            currentProduct = Product.objects.get(PID=item.PID)
+            orderDetails += {
+                "name": currentProduct.name,
+                "price": currentProduct.price,
+                "qty": item.qty,
+                "subtotal": currentProduct.price * item.qty,
             }
+            newQty = currentProduct.quantity - item.qty
+            if newQty >= 0:
+                currentProduct.quantity = newQty
+                currentProduct.save()
+                item.delete()
 
-            userID = request.user.id
-            cart_items = Cart.objects.filter(CID=userID)
-            orderDetails = {}
-            for item in cart_items:
-                currentProduct = Product.objects.get(PID=item.PID)
-                orderDetails += {
-                    "name": currentProduct.name,
-                    "price": currentProduct.price,
-                    "qty": item.qty,
-                    "subtotal": currentProduct.price * item.qty,
-                }
-                newQty = currentProduct.quantity - item.qty
-                if newQty >= 0:
-                    currentProduct.quantity = newQty
-                    currentProduct.save()
-                    item.delete()
-
-            return render(
-                request,
-                "orderConfirmation.html",
-                {"order_details": orderDetails, "order_form": orderForm},
-            )
-    return render(request, "orderConfirmation.html")
+        return render(
+            request,
+            "orderConfirmation.html",
+            {"order_details": orderDetails, "order_form": orderForm},
+        )
+    return redirect("cart")
 
 
 def login(request):
