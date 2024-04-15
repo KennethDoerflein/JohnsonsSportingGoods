@@ -1,12 +1,10 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.template import loader
 from .models import Product
 from .forms import RegistrationForm, LoginForm
 from django.contrib.auth.models import Group, User
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login, logout as auth_logout, authenticate
 from django.http import JsonResponse
+from datetime import date
 
 
 def index(request):
@@ -69,3 +67,39 @@ def checkTaken(request):
             if User.objects.filter(email=email.lower()).exists():
                 return JsonResponse({"used": "true"})
             return JsonResponse({"used": "false"})
+
+
+def checkout(request):
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            form = request.POST
+            orderForm = {
+                "shippingAddr": form.get("shipping_addr"),
+                "recipient": form.get("recipient"),
+                "billingAddr": form.get("billing_addr"),
+                "billingName": form.get("billing_name"),
+                "date": date.today(),
+            }
+
+            userID = request.user.id
+            cart_items = Cart.objects.filter(CID=userID)
+            orderDetails = {}
+            for item in cart_items:
+                orderDetails += {
+                    "name": item.name,
+                    "price": item.price,
+                    "qty": item.qty,
+                    "subtotal": item.price * item.qty,
+                }
+                currentProduct = Product.objects.get(PID=item.PID)
+                newQty = currentProduct.quantity - item.qty
+                if newQty >= 0:
+                    currentProduct.quantity = newQty
+                    currentProduct.save()
+                    item.delete()
+
+    return render(
+        request,
+        "orderConfirmation.html",
+        {"order_details": orderDetails, "order_form": orderForm},
+    )
