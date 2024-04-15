@@ -9,20 +9,19 @@ from django.contrib.auth import login as auth_login, logout as auth_logout, auth
 from django.http import JsonResponse
 
 
+def navbar_cart_count(request):
+    cart_count = (
+        Cart.objects.filter(CID=request.user.id).aggregate(Sum('qty'))['qty__sum'] or 0
+    )
+    return {'cart_count': cart_count}
+
+
 def index(request):
     products = Product.objects.all().values()
-    cart_count = Cart.objects.filter(CID=request.user.id).aggregate(Sum('qty'))['qty__sum'] or 0
-
-    context = {
-        'products': products,
-        'cart_count': cart_count,
-    }
-
-    return render(request, "index.html", context)
+    return render(request, "index.html", {'products': products})
 
 
 def cart(request):
-    cart_count = Cart.objects.filter(CID=request.user.id).aggregate(Sum('qty'))['qty__sum'] or 0
     cart_items = Cart.objects.filter(CID=request.user.id)
 
     cart_items_with_product_details = []
@@ -38,7 +37,6 @@ def cart(request):
         cart_items_with_product_details.append(cart_item_with_product_details)
 
     context = {
-        'cart_count': cart_count,
         'cart_items': cart_items_with_product_details,
         'total_cost': total_cost
     }
@@ -84,15 +82,29 @@ def logout(request):
         auth_logout(request)
         return redirect("index")
 
+
 def add_to_cart(request):
-    if request.method == 'POST':
-        customer_id = request.POST.get('customer_id')
-        product_id = request.POST.get('product_id')
-        quantity = request.POST.get('quantity')
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            customer_id = request.POST.get("customer_id")
+            product_id = request.POST.get("product_id")
+            quantity = int(request.POST.get("quantity"))
+            in_stock = Product.objects.get(id=product_id).quantity
+            if quantity > in_stock:
+                quantity = in_stock
+            if quantity > 0:
+                if Cart.objects.filter(CID=customer_id, PID=product_id).exists():
+                    item = Cart.objects.get(CID=customer_id, PID=product_id)
+                    item.qty = item.qty + quantity
+                    if item.qty > in_stock:
+                        item.qty = in_stock
+                    item.save()
+                else:
+                    Cart.objects.create(CID=customer_id, PID=product_id, qty=quantity)
+        else:
+            return redirect("login")
+    return redirect("index")
 
-        Cart.objects.create(CID=customer_id, PID=product_id, qty=quantity)
-
-        return redirect('index')
 
 def checkTaken(request):
     username = request.GET.get("username")
