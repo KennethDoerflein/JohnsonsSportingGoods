@@ -11,14 +11,14 @@ from django.http import JsonResponse
 
 def navbar_cart_count(request):
     cart_count = (
-        Cart.objects.filter(CID=request.user.id).aggregate(Sum('qty'))['qty__sum'] or 0
+        Cart.objects.filter(CID=request.user.id).aggregate(Sum("qty"))["qty__sum"] or 0
     )
-    return {'cart_count': cart_count}
+    return {"cart_count": cart_count}
 
 
 def index(request):
     products = Product.objects.all().values()
-    return render(request, "index.html", {'products': products})
+    return render(request, "index.html", {"products": products})
 
 
 def cart(request):
@@ -30,16 +30,15 @@ def cart(request):
         product = Product.objects.get(id=cart_item.PID)
         total_cost += product.price * cart_item.qty
         cart_item_with_product_details = {
-            'name': product.name,
-            'price': product.price * cart_item.qty,
-            'qty': cart_item.qty
+            "image": product.image,
+            "name": product.name,
+            "price": product.price,
+            "qty": cart_item.qty,
+            "subtotal": product.price * cart_item.qty,
         }
         cart_items_with_product_details.append(cart_item_with_product_details)
 
-    context = {
-        'cart_items': cart_items_with_product_details,
-        'total_cost': total_cost
-    }
+    context = {"cart_items": cart_items_with_product_details, "total_cost": total_cost}
 
     return render(request, "cart.html", context)
 
