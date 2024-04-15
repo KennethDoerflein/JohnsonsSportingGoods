@@ -1,4 +1,5 @@
 # Johnson's Sporting Goods
+**Note: Depending on your python install it may be `py` or `python` or `python3`**
 
 **Initial Setup**
 1. Open Git Bash
@@ -9,13 +10,13 @@
 6. Activate the virtual environment: `JSG_venv\Scripts\activate`
 7. Switch to the 'JSG' directory: `cd JSG`
 8. Install requirements: `pip install -r requirements.txt`
-9. Apply migrations: `python manage.py migrate`
+9. Apply migrations: `py manage.py migrate`
 10. Test Django server: `py manage.py runserver`
 11. Quit server: ctrl + c
 
 **Normal use (list may not be complete)**
 1. Activate the virtual environment `JSG_venv\Scripts\activate`
-2. Start Django server: `py manage.py runserver` or `python manage.py runserver`
+2. Start Django server: `py manage.py runserver`
 3. Visit `http://127.0.0.1:8000`
 
 ### Test User account
