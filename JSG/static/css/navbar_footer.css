@@ -24,3 +24,7 @@ footer hr {
 .navbar-brand img {
   margin: -5px;
 }
+.badge {
+  font-size: 12px !important;
+  margin-left: 10px;
+}
