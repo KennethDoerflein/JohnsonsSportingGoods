@@ -56,16 +56,16 @@ function checkUsername(self) {
       var status = JSON.parse(text)["used"];
       if (self.target.value !== "") {
         if (status === "true") {
-          setUsedStyling("bad", self.target, usernameHelpText);
+          setInputStyling("bad", self.target, usernameHelpText);
           usernameUnused = false;
           usernameHelpText.innerText = "That username is already in use";
         } else {
           usernameUnused = true;
-          setUsedStyling("good", self.target, usernameHelpText);
+          setInputStyling("good", self.target, usernameHelpText);
           usernameHelpText.innerText = "That looks good";
         }
       } else {
-        setUsedStyling("original", self.target, usernameHelpText);
+        setInputStyling("original", self.target, usernameHelpText);
         usernameHelpText.innerText = "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.";
         usernameUnused = false;
       }
@@ -80,11 +80,11 @@ function checkEmail(self) {
   if (!emailRegex) {
     if (self.target.value === "") {
       emailUnused = false;
-      setUsedStyling("original", self.target, emailHelpText);
+      setInputStyling("original", self.target, emailHelpText);
       emailHelpText.innerText = "Required: Enter a email in the format example@example.com";
     } else {
       emailUnused = true;
-      setUsedStyling("bad", self.target, emailHelpText);
+      setInputStyling("bad", self.target, emailHelpText);
       emailHelpText.innerText = "Email is not in the correct format, ex: example@example.com";
     }
   } else {
@@ -94,11 +94,11 @@ function checkEmail(self) {
         var status = JSON.parse(text)["used"];
         if (self.target.value !== "") {
           if (status === "true") {
-            setUsedStyling("bad", self.target, emailHelpText);
+            setInputStyling("bad", self.target, emailHelpText);
             emailUnused = false;
             emailHelpText.innerText = "That email is already in use";
           } else if (emailRegex) {
-            setUsedStyling("good", self.target, emailHelpText);
+            setInputStyling("good", self.target, emailHelpText);
             emailUnused = true;
             emailHelpText.innerText = "That looks good";
           }
@@ -112,9 +112,12 @@ function checkEmail(self) {
 function checkPassword(self) {
   var password1 = document.getElementById("id_password1");
   var password2 = document.getElementById("id_password2");
+  var password_helptext = document.getElementById("id_password2_helptext");
   if (password1.value !== "" && password2.value !== "") {
     if (password1.value !== password2.value) {
-      setPasswordStyling("bad", password1, password2);
+      password_helptext.innerText = "The passwords do not match";
+      setInputStyling("bad", password2, password_helptext);
+      setInputStyling("bad", password1, password_helptext);
       if (self.target === password2) {
         password2.setCustomValidity("Passwords do not match.");
         password2.reportValidity();
@@ -125,39 +128,32 @@ function checkPassword(self) {
     } else {
       password2.setCustomValidity("");
       password1.setCustomValidity("");
-      setPasswordStyling("good", password1, password2);
+      password_helptext.innerText = "The passwords match";
+      setInputStyling("good", password2, password_helptext);
+      setInputStyling("good", password1, password_helptext);
     }
+  } else {
+    password_helptext.innerText = "Enter the same password as before, for verification.";
+    setInputStyling("original", password2, password_helptext);
+    setInputStyling("original", password1, password_helptext);
   }
   validateForm();
 }
-function setUsedStyling(used, input, helpText) {
+function setInputStyling(used, input, helpText) {
   if (used === "bad") {
     input.classList.add("inputERR");
     input.classList.remove("inputGood");
     helpText.classList.add("helptextBad");
-    helpText.classList.remove("helptext");
+    helpText.classList.remove("helptextGood");
   } else if (used === "good") {
     input.classList.add("inputGood");
     input.classList.remove("inputERR");
     helpText.classList.remove("helptextBad");
-    helpText.classList.add("helptext");
+    helpText.classList.add("helptextGood");
   } else {
     input.classList.remove("inputGood");
     input.classList.remove("inputERR");
     helpText.classList.remove("helptextBad");
     helpText.classList.add("helptext");
-  }
-}
-function setPasswordStyling(used, input1, input2) {
-  if (used === "bad") {
-    input1.classList.add("inputERR");
-    input1.classList.remove("inputGood");
-    input2.classList.add("inputERR");
-    input2.classList.remove("inputGood");
-  } else if (used === "good") {
-    input1.classList.add("inputGood");
-    input1.classList.remove("inputERR");
-    input2.classList.add("inputGood");
-    input2.classList.remove("inputERR");
   }
 }
