@@ -47,3 +47,8 @@
   color: rgb(233, 33, 33) !important;
   text-shadow: black 0px 0px 10px;
 }
+.helptextGood {
+  font-weight: bold;
+  color: #00ff00c4 !important;
+  text-shadow: black 0px 0px 10px;
+}
