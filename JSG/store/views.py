@@ -1,4 +1,3 @@
-from queue import Empty
 from django.shortcuts import render, redirect
 from .models import Product, Cart
 from django.db.models import Sum
