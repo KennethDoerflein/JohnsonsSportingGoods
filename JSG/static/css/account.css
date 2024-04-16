@@ -1,0 +1,139 @@
+  #AccountContainer {
+    max-width: 35rem;
+    background-color: #414346;
+    padding: 2rem;
+    border-radius: 2rem;
+  }
+  .errorlist {
+    color: rgb(241, 77, 77);
+    font-weight: bolder;
+    margin-bottom: 0px;
+  }
+  .accountForm input {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    width: 100%;
+    border-radius: 1rem;
+  }
+  .accountForm label {
+    display: block;
+  }
+  #id_password1 {
+    margin-top: -5px;
+  }
+  #id_last_name {
+    margin-bottom: 3rem;
+  }
+  .accountForm label {
+    margin-top: 0.5rem;
+    font-weight: bolder;
+    text-decoration: underline;
+  }
+  .helptext {
+    color: rgb(208, 202, 236);
+  }
+  .toolTip {
+    padding-bottom: 30px;
+  }
+  .inputERR {
+    background-color: #b83a3a;
+  }
+  .inputGood {
+    background-color: #3d643d;
+  }
+  .helptextBad {
+    font-weight: bold;
+    color: rgb(233, 33, 33) !important;
+    text-shadow: black 0px 0px 10px;
+  }
+  .helptextGood {
+    font-weight: bold;
+    color: #00ff00c4 !important;
+    text-shadow: black 0px 0px 10px;
+  }
+  
+  label {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: bolder;
+    text-decoration: underline;
+    display: block;
+  } 
+
+  .userLabel {
+    /* color: peru; */
+    margin-top: 0.5rem;
+    margin-bottom: 0.0rem;
+    font-weight: bolder;
+    /* text-decoration: underline; */
+    /* display: block; */
+  } 
+
+  .userData {
+    /* color: purple; */
+    margin-top: 0.0rem;
+    /* margin-bottom: 0.5rem; */
+    font-weight: unset;
+    text-decoration: unset;
+    /* display: block; */
+  } 
+
+  input {
+    padding: 0.5rem;
+    border-radius: 1rem;
+    display: block;
+  }
+
+  input[type=password] {
+    width: 100%;
+/* 
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+ */    
+  }
+
+  .center {
+    margin: 0;
+    position: absolute;
+    /* top: 50%; */
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+  
+/* 
+  #AccountContainer {
+    max-width: 19rem;
+    background-color: #414346;
+    padding: 1.5rem;
+    border-radius: 2rem;
+  }
+  .errorlist {
+    color: rgb(241, 77, 77);
+    font-weight: bolder;
+  }
+  .accountForm input {
+    padding: 0.5rem;
+    margin-left: 2rem;
+    max-width: 12rem;
+    border-radius: 1rem;
+    margin-top: 1rem !important;
+    margin-bottom: 1rem;
+  }
+  .accountForm #id_password {
+    margin-left: 2.3rem;
+    margin-top: 1rem;
+  }
+  .accountForm label {
+    font-weight: bolder;
+    text-decoration: underline;
+  }
+  .toolTip {
+    padding-bottom: 30px;
+  }
+ */

@@ -165,7 +165,7 @@ def checkTaken(request):
             return JsonResponse({"used": "false"})
 
 
-def changePassword(request):
+def account(request):
     if request.user.is_authenticated:
         if request.method == "POST":
             form = PasswordChangeForm(user=request.user,data=request.POST)
@@ -177,5 +177,5 @@ def changePassword(request):
             form = PasswordChangeForm(user=request.user)
     else:
         return redirect("/")  # change to account page when its done
-    return render(request, "changepassword.html", {"form": form})
+    return render(request, "account.html", {"form": form})
 
