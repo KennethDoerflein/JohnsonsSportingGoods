@@ -3,7 +3,6 @@ const tooltipList = [...tooltipTriggerList].map((tooltipTriggerEl) => new bootst
 
 var emailUnused = false;
 var usernameUnused = false;
-var passwordsValidityShowing = false;
 
 document.getElementById("id_first_name").onkeyup = validateForm;
 document.getElementById("id_last_name").onkeyup = validateForm;
