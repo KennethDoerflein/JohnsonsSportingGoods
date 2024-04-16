@@ -3,6 +3,7 @@ const tooltipList = [...tooltipTriggerList].map((tooltipTriggerEl) => new bootst
 
 var emailUnused = false;
 var usernameUnused = false;
+var passwordsValidityShowing = false;
 
 document.getElementById("id_first_name").onkeyup = validateForm;
 document.getElementById("id_last_name").onkeyup = validateForm;
@@ -26,12 +27,6 @@ function validateForm() {
   var registerButton = document.getElementById("registerButton");
 
   var emailRegex = RegExp(/^\w+([\.-]?(?=(\w+))\1)*@\w+([\.-]?(?=(\w+))\1)*(\.\w{2,3})+$/).test(email.value);
-
-  console.log(emailRegex);
-
-  console.log(emailUnused);
-
-  console.log(usernameUnused);
 
   if (
     username !== "" &&
@@ -119,8 +114,7 @@ function checkPassword(self) {
   var password2 = document.getElementById("id_password2");
   if (password1.value !== "" && password2.value !== "") {
     if (password1.value !== password2.value) {
-      password1.classList.add("inputERR");
-      password2.classList.add("inputERR");
+      setPasswordStyling("bad", password1, password2);
       if (self.target === password2) {
         password2.setCustomValidity("Passwords do not match.");
         password2.reportValidity();
@@ -131,8 +125,7 @@ function checkPassword(self) {
     } else {
       password2.setCustomValidity("");
       password1.setCustomValidity("");
-      password1.classList.remove("inputERR");
-      password2.classList.remove("inputERR");
+      setPasswordStyling("good", password1, password2);
     }
   }
   validateForm();
@@ -153,5 +146,18 @@ function setUsedStyling(used, input, helpText) {
     input.classList.remove("inputERR");
     helpText.classList.remove("helptextBad");
     helpText.classList.add("helptext");
+  }
+}
+function setPasswordStyling(used, input1, input2) {
+  if (used === "bad") {
+    input1.classList.add("inputERR");
+    input1.classList.remove("inputGood");
+    input2.classList.add("inputERR");
+    input2.classList.remove("inputGood");
+  } else if (used === "good") {
+    input1.classList.add("inputGood");
+    input1.classList.remove("inputERR");
+    input2.classList.add("inputGood");
+    input2.classList.remove("inputERR");
   }
 }
