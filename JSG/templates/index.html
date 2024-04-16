@@ -16,25 +16,30 @@
   </head>
   <body>
     <div id="mainContainer">
-      {% include './components/navbar.html' %} {% if request.user.is_authenticated %}
-      <h1 class="text-center">Logged in as: {{ request.user.username}}, User ID: {{ request.user.id}}</h1>
+      {% include './components/navbar.html' %} 
+      {% if request.user.is_authenticated %}
+      <h1 class="text-center">Logged in as: {{ request.user.username}}, User ID: {{ request.user.id }}</h1>
       {% endif %}
       <div class="container-fluid mx-auto row text-center row-cols-sm-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4">
-        {% for i in products %}
+        {% for current_product in products %}
         <div class="col mb-3 g-2">
           <div class="card mx-auto h-100">
             <div class="productIMGContainer">
-              <img src="{{ i.image }}" class="card-img-top" alt="{{ i.name }} image" />
+              <img src="{{ current_product.image }}" class="card-img-top" alt="{{ current_product.name }} image" />
             </div>
             <div class="card-body mt-auto">
-              <h5 class="card-title">{{ i.name }}</h5>
+              <h5 class="card-title">{{ current_product.name }}</h5>
             </div>
             <div class="card-footer mt-auto">
-              <p class="card-text fs-3">${{ i.price|floatformat:2 }}</p>
-              <p class="card-text">Only <strong>{{ i.quantity }}</strong> left!</p>
-              {% csrf_token %}
-              <input type="number" class="form-control mb-3 text-center" name="quantity" placeholder="Quantity" value="1" />
-              <button type="submit" class="btn btn-primary mt-auto w-100 my-2">Add to Cart</button>
+              <p class="card-text fs-3">${{ current_product.price|floatformat:2 }}</p>
+              <p class="card-text">Only <strong>{{ current_product.quantity }}</strong> left!</p>
+              <form action="{% url 'add_to_cart' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="customer_id" value="{{ request.user.id}}" />
+                <input type="hidden" name="product_id" value="{{ current_product.id }}" />
+                <input type="number" class="form-control mb-3 text-center" name="quantity" value="1" min="1" max="{{ current_product.quantity|stringformat:"d" }}" />
+                <button type="submit" class="btn btn-primary mt-auto w-100 my-2">Add to Cart</button>
+              </form>
             </div>
           </div>
         </div>
