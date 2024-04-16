@@ -1,12 +1,11 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.template import loader
 from .models import Product, Cart
 from django.db.models import Sum
 from .forms import RegistrationForm, LoginForm
 from django.contrib.auth.models import Group, User
 from django.contrib.auth import login as auth_login, logout as auth_logout, authenticate
 from django.http import JsonResponse
+from datetime import date
 
 
 def navbar_cart_count(request):
@@ -44,7 +43,41 @@ def cart(request):
 
 
 def orderConfirmation(request):
-    return render(request, "orderConfirmation.html")
+    if request.method == "POST" and request.user.is_authenticated:
+        form = request.POST
+        orderForm = {
+            "shippingAddr": form.get("shipping_addr"),
+            "recipient": form.get("recipient"),
+            "billingAddr": form.get("billing_addr"),
+            "billingName": form.get("billing_name"),
+            "date": date.today(),
+        }
+
+        userID = request.user.id
+        cart_items = Cart.objects.filter(CID=userID)
+        orderDetails = []
+        for item in cart_items:
+            currentProduct = Product.objects.get(id=item.PID)
+            orderDetails.append(
+                {
+                    "name": currentProduct.name,
+                    "price": currentProduct.price,
+                    "qty": item.qty,
+                    "subtotal": currentProduct.price * item.qty,
+                }
+            )
+            newQty = currentProduct.quantity - item.qty
+            if newQty >= 0:
+                currentProduct.quantity = newQty
+                currentProduct.save()
+                item.delete()
+
+        return render(
+            request,
+            "orderConfirmation.html",
+            {"order_details": orderDetails, "order_form": orderForm},
+        )
+    return redirect("cart")
 
 
 def login(request):
@@ -78,8 +111,9 @@ def register(request):
 
 def logout(request):
     if request.method == "POST":
-        auth_logout(request)
-        return redirect("index")
+        if request.user.is_authenticated:
+            auth_logout(request)
+            return redirect("index")
 
 
 def add_to_cart(request):
