@@ -84,31 +84,39 @@ def orderConfirmation(request):
 
 
 def login(request):
-    if request.method == "POST":
-        form = LoginForm(data=request.POST)
-        if form.is_valid():
-            formUsername = form.cleaned_data.get("username")
-            formPassword = form.cleaned_data.get("password")
-            user = authenticate(request, username=formUsername, password=formPassword)
-            if user is not None:
-                auth_login(request, user)
-                return redirect("index")
+    if not request.user.is_authenticated:
+        if request.method == "POST":
+            form = LoginForm(data=request.POST)
+            if form.is_valid():
+                formUsername = form.cleaned_data.get("username")
+                formPassword = form.cleaned_data.get("password")
+                user = authenticate(
+                    request, username=formUsername, password=formPassword
+                )
+                if user is not None:
+                    auth_login(request, user)
+                    return redirect("index")
+        else:
+            form = LoginForm()
     else:
-        form = LoginForm()
+        return redirect("/")  # change to account page when its done
     return render(request, "login.html", {"form": form})
 
 
 def register(request):
-    if request.method == "POST":
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            groupID = Group.objects.get(name="Customer")
-            user = form.save()
-            groupID.user_set.add(user)
-            auth_login(request, user)
-            return redirect("index")
+    if not request.user.is_authenticated:
+        if request.method == "POST":
+            form = RegistrationForm(request.POST)
+            if form.is_valid():
+                groupID = Group.objects.get(name="Customer")
+                user = form.save()
+                groupID.user_set.add(user)
+                auth_login(request, user)
+                return redirect("index")
+        else:
+            form = RegistrationForm()
     else:
-        form = RegistrationForm()
+        return redirect("/")  # change to account page when its done
     return render(request, "register.html", {"form": form})
 
 
