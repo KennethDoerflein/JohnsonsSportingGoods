@@ -1,3 +1,4 @@
+from queue import Empty
 from django.shortcuts import render, redirect
 from .models import Product, Cart
 from django.db.models import Sum
@@ -55,11 +56,14 @@ def orderConfirmation(request):
 
         userID = request.user.id
         cart_items = Cart.objects.filter(CID=userID)
+        if not cart_items.exists():
+            return redirect("cart")
         orderDetails = []
         for item in cart_items:
             currentProduct = Product.objects.get(id=item.PID)
             orderDetails.append(
                 {
+                    "image": currentProduct.image,
                     "name": currentProduct.name,
                     "price": currentProduct.price,
                     "qty": item.qty,
