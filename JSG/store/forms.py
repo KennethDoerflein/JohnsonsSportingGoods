@@ -46,3 +46,4 @@ class LoginForm(AuthenticationForm):
         if not User.objects.filter(username=formUsername.lower()).exists():
             raise ValidationError("A user with that username does not exists")
         return formUsername.lower()
+
