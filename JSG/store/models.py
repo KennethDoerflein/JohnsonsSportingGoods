@@ -10,7 +10,7 @@ class Product(models.Model):
     quantity = models.IntegerField()
     image = models.CharField(
         max_length=255,
-        default="/static/assets/johnsonLogo.png",
+        default="/assets/johnsonLogo.png",
     )
 
 

@@ -1,12 +1,13 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JSG</title>
-    <link rel="stylesheet" href="/static/css/login.css" />
-    <link rel="stylesheet" href="/static/css/navbar_footer.css" />
-    <link rel="icon" type="image/x-icon" href="/static/assets/johnsonLogo.png" />
+    <link rel="stylesheet" href="{% static '/css/login.css' %}" />
+    <link rel="stylesheet" href="{% static '/css/navbar_footer.css' %}" />
+    <link rel="icon" type="image/x-icon" href="{% static '/assets/johnsonLogo.png' %}" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -18,7 +19,7 @@
     <div id="mainContainer">
       {% include './components/navbar.html' %}
       <div id="loginContainer" class="mx-auto">
-        <form class="loginForm" action="login" method="post">
+        <form class="loginForm" action="{% url 'login' %}" method="post">
           {% csrf_token %} {{form}}
           <div class="text-center">
             <span class="toolTip" data-bs-toggle="tooltip" data-bs-title="Please fill out the required fields." id="ToolTipLogin">
@@ -27,7 +28,7 @@
           </div>
         </form>
         <div class="text-center">
-          <a id="registerLink" class="btn btn-secondary mt-4 btn-sm" href="register" type="button">Register</a>
+          <a id="registerLink" class="btn btn-secondary mt-4 btn-sm" href="{% url 'register' %}" type="button">Register</a>
         </div>
       </div>
     </div>
@@ -37,6 +38,6 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
-    <script src="/static/js/login.js"></script>
+    <script src="{% static '/js/login.js' %}"></script>
   </body>
 </html>
