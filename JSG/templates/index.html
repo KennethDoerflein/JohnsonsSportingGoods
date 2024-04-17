@@ -16,8 +16,7 @@
   </head>
   <body>
     <div id="mainContainer">
-      {% include './components/navbar.html' %} 
-      {% if request.user.is_authenticated %}
+      {% include './components/navbar.html' %} {% if request.user.is_authenticated %}
       <h1 class="text-center">Logged in as: {{ request.user.username}}, User ID: {{ request.user.id }}</h1>
       {% endif %}
       <div class="container-fluid mx-auto row text-center row-cols-sm-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4">
@@ -33,6 +32,7 @@
             <div class="card-footer mt-auto">
               <p class="card-text fs-3">${{ current_product.price|floatformat:2 }}</p>
               <p class="card-text">Only <strong>{{ current_product.quantity }}</strong> left!</p>
+              {% if current_product.quantity != 0 %}
               <form action="{% url 'add_to_cart' %}" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="customer_id" value="{{ request.user.id}}" />
@@ -40,6 +40,9 @@
                 <input type="number" class="form-control mb-3 text-center" name="quantity" value="1" min="1" max="{{ current_product.quantity|stringformat:"d" }}" />
                 <button type="submit" class="btn btn-primary mt-auto w-100 my-2">Add to Cart</button>
               </form>
+              {% else %} <input disabled type="number" class="form-control mb-3 text-center" name="quantity" value="0" min="1" max="{{ current_product.quantity|stringformat:"d" }}" />
+              <button type="submit" disabled class="btn btn-primary mt-auto w-100 my-2">Out of Stock</button>
+              {% endif %}
             </div>
           </div>
         </div>
