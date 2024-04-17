@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JSG</title>
+    <link rel="stylesheet" href="/static/css/account.css" />
+    <link rel="stylesheet" href="/static/css/navbar_footer.css" />
+    <link rel="icon" type="image/x-icon" href="/static/assets/johnsonLogo.png" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous" />
+  </head>
+  <body>
+    <div id="mainContainer">
+      {% include './components/navbar.html' %}
+      <div id="AccountContainer" class="mx-auto mt-5">
+        <label class="userLabel">First name:</label>
+        <br />
+        <label class="userData">{{request.user.first_name}}</label>
+        <br />
+        <label class="userLabel">Last name:</label>
+        <br />
+        <label class="userData">{{request.user.last_name}}</label>
+        <br />
+        <label class="userLabel">Username:</label>
+        <br />
+        <label class="userData">{{request.user.username}}</label>
+        <br />
+        <label class="userLabel">Email:</label>
+        <br />
+        <label class="userData">{{request.user.email}}</label>
+        <br />
+        <label class="userLabel">Joined:</label>
+        <br />
+        <label class="userData">{{request.user.date_joined}}</label>
+        <br />
+        <br />
+        <div class="center">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#passwordModal">Change Password</button>
+        </div>
+      </div>
+
+      <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="passwordModalLabel">Change Password</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="account" method="post">
+              {% csrf_token %}
+              <div class="modal-body">{{ form }}</div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% include './components/footer.html' %}
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -3,9 +3,15 @@ from .models import Product, Cart
 from django.db.models import Sum
 from .forms import RegistrationForm, LoginForm
 from django.contrib.auth.models import Group, User
-from django.contrib.auth import login as auth_login, logout as auth_logout, authenticate
+from django.contrib.auth import (
+    login as auth_login,
+    logout as auth_logout,
+    authenticate,
+    update_session_auth_hash,
+)
 from django.http import JsonResponse
 from datetime import date
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 def navbar_cart_count(request):
@@ -162,3 +168,18 @@ def checkTaken(request):
             if User.objects.filter(email=email.lower()).exists():
                 return JsonResponse({"used": "true"})
             return JsonResponse({"used": "false"})
+
+
+def account(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            form = PasswordChangeForm(user=request.user, data=request.POST)
+            if form.is_valid():
+                form.save()
+                update_session_auth_hash(request, form.user)
+                return redirect("index")
+        else:
+            form = PasswordChangeForm(user=request.user)
+    else:
+        return redirect("/")  # change to account page when its done
+    return render(request, "account.html", {"form": form})
