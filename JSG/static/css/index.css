@@ -5,6 +5,7 @@
 }
 .card {
   width: 18rem;
+  border-width: 3px !important;
 }
 .productIMGContainer {
   min-height: 200px;

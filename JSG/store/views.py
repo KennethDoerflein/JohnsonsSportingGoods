@@ -18,6 +18,8 @@ def navbar_cart_count(request):
     cart_count = (
         Cart.objects.filter(CID=request.user.id).aggregate(Sum("qty"))["qty__sum"] or 0
     )
+    if cart_count > 99:
+        cart_count = "99+"
     return {"cart_count": cart_count}
 
 
