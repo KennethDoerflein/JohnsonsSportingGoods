@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Product, Cart
+from .models import Product, Cart,Order, OrderItem
 from django.db.models import Sum
 from .forms import RegistrationForm, LoginForm
 from django.contrib.auth.models import Group, User
@@ -12,6 +12,8 @@ from django.contrib.auth import (
 from django.http import JsonResponse
 from datetime import date
 from django.contrib.auth.forms import PasswordChangeForm
+import uuid
+
 
 
 def navbar_cart_count(request):
@@ -66,6 +68,7 @@ def orderConfirmation(request):
         if not cart_items.exists():
             return redirect("cart")
         orderDetails = []
+        total_cost = 0
         for item in cart_items:
             currentProduct = Product.objects.get(id=item.PID)
             orderDetails.append(
@@ -77,11 +80,30 @@ def orderConfirmation(request):
                     "subtotal": currentProduct.price * item.qty,
                 }
             )
+            total_cost += currentProduct.price * item.qty
             newQty = currentProduct.quantity - item.qty
             if newQty >= 0:
                 currentProduct.quantity = newQty
                 currentProduct.save()
                 item.delete()
+        
+       
+        default_order_id = uuid.uuid4().hex[:10].upper()
+        new_order = Order.objects.create(
+            user=request.user,
+            shipping_address=orderForm["shippingAddr"],
+            billing_address=orderForm["billingAddr"],
+            total_cost=total_cost,
+        )
+
+        for item in cart_items:
+            product = Product.objects.get(id=item.PID)
+            OrderItem.objects.create(
+                order=new_order,
+                product=product,
+                quantity=item.qty
+            )
+
 
         return render(
             request,
