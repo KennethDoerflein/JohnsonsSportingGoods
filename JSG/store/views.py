@@ -93,7 +93,7 @@ def orderConfirmation(request):
             if newQty >= 0:
                 currentProduct.quantity = newQty
                 currentProduct.save()
-                # cart_item.delete()
+                cart_item.delete()
         context = {
             "order_details": orderDetails,
             "order_form": orderForm,
