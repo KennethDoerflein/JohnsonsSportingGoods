@@ -52,6 +52,67 @@ def cart(request):
     return render(request, "cart.html", context)
 
 
+# def orderConfirmation(request):
+#     if request.method == "POST" and request.user.is_authenticated:
+#         form = request.POST
+#         orderForm = {
+#             "shippingAddr": form.get("shipping_addr"),
+#             "recipient": form.get("recipient"),
+#             "billingAddr": form.get("billing_addr"),
+#             "billingName": form.get("billing_name"),
+#             "date": date.today(),
+#         }
+
+#         userID = request.user.id
+#         cart_items = Cart.objects.filter(CID=userID)
+#         if not cart_items.exists():
+#             return redirect("cart")
+#         orderDetails = []
+#         total_cost = 0
+#         for item in cart_items:
+#             currentProduct = Product.objects.get(id=item.PID)
+#             product_image = currentProduct.image
+            
+#             orderDetails.append(
+#                 {
+#                     "image": product_image,
+#                     "name": currentProduct.name,
+#                     "price": currentProduct.price,
+#                     "qty": item.qty,
+#                     "subtotal": currentProduct.price * item.qty,
+#                 }
+#             )
+#             total_cost += currentProduct.price * item.qty
+#             newQty = currentProduct.quantity - item.qty
+#             if newQty >= 0:
+#                 currentProduct.quantity = newQty
+#                 currentProduct.save()
+#                 item.delete()
+        
+       
+#         default_order_id = uuid.uuid4().hex[:10].upper()
+#         new_order = Order.objects.create(
+#             user=request.user,
+#             shipping_address=orderForm["shippingAddr"],
+#             billing_address=orderForm["billingAddr"],
+#             total_cost=total_cost,
+#         )
+
+#         for item in cart_items:
+#             product = Product.objects.get(id=item.PID)
+#             OrderItem.objects.create(
+#                 order=new_order,
+#                 product=product,
+#                 quantity=item.qty
+#             )
+
+
+#         return render(
+#             request,
+#             "orderConfirmation.html",
+#             {"order_details": orderDetails, "order_form": orderForm,"total_cost": total_cost,},
+#         )
+#     return redirect("cart")
 def orderConfirmation(request):
     if request.method == "POST" and request.user.is_authenticated:
         form = request.POST
@@ -62,55 +123,49 @@ def orderConfirmation(request):
             "billingName": form.get("billing_name"),
             "date": date.today(),
         }
-
         userID = request.user.id
         cart_items = Cart.objects.filter(CID=userID)
         if not cart_items.exists():
             return redirect("cart")
         orderDetails = []
         total_cost = 0
-        for item in cart_items:
-            currentProduct = Product.objects.get(id=item.PID)
-            orderDetails.append(
-                {
-                    "image": currentProduct.image,
-                    "name": currentProduct.name,
-                    "price": currentProduct.price,
-                    "qty": item.qty,
-                    "subtotal": currentProduct.price * item.qty,
-                }
-            )
-            total_cost += currentProduct.price * item.qty
-            newQty = currentProduct.quantity - item.qty
+        for cart_item in cart_items:
+            product = Product.objects.get(id=cart_item.PID)
+            subtotal = product.price * cart_item.qty
+            orderDetails.append({
+                "image": product.image,  
+                "name": product.name,
+                "price": product.price,
+                "qty": cart_item.qty,
+                "subtotal": subtotal,
+            })
+            total_cost += subtotal
+            newQty = product.quantity - cart_item.qty
             if newQty >= 0:
-                currentProduct.quantity = newQty
-                currentProduct.save()
-                item.delete()
+                product.quantity = newQty
+                product.save()
+                cart_item.delete()
         
-       
-        default_order_id = uuid.uuid4().hex[:10].upper()
         new_order = Order.objects.create(
             user=request.user,
             shipping_address=orderForm["shippingAddr"],
             billing_address=orderForm["billingAddr"],
             total_cost=total_cost,
         )
-
-        for item in cart_items:
-            product = Product.objects.get(id=item.PID)
+        for cart_item in cart_items:
+            product = Product.objects.get(id=cart_item.PID)
             OrderItem.objects.create(
                 order=new_order,
                 product=product,
-                quantity=item.qty
+                quantity=cart_item.qty
             )
-
-
         return render(
             request,
             "orderConfirmation.html",
-            {"order_details": orderDetails, "order_form": orderForm},
+            {"order_details": orderDetails, "order_form": orderForm, "total_cost": total_cost,},
         )
     return redirect("cart")
+
 
 
 def login(request):
