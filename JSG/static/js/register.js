@@ -153,6 +153,7 @@ function setInputStyling(used, input, helpText) {
     input.classList.remove("inputGood");
     input.classList.remove("inputERR");
     helpText.classList.remove("helptextBad");
+    helpText.classList.remove("helptextGood");
     helpText.classList.add("helptext");
   }
 }
