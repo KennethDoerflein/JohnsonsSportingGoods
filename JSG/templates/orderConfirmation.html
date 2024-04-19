@@ -32,21 +32,19 @@
               <table class="table table-striped">
                 <thead>
                   <tr>
-                    <th scope="col">S.R.</th>
-                    <th scope="col">Product Name</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Subtotal</th>
+                    <th class="ps-3" scope="col">Product Name</th>
+                    <th scope="col" class="text-center">Price</th>
+                    <th scope="col" class="text-center">Quantity</th>
+                    <th scope="col" class="text-center">Subtotal</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for item in order_details %}
                   <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{ item.name }}</td>
-                    <td>${{ item.price|floatformat:2 }}</td>
-                    <td>{{ item.qty }}</td>
-                    <td>${{ item.subtotal|floatformat:2 }}</td>
+                    <td class="ps-3">{{ item.name }}</td>
+                    <td class="text-center">${{ item.price|floatformat:2 }}</td>
+                    <td class="text-center">{{ item.qty }}</td>
+                    <td class="text-center">${{ item.subtotal|floatformat:2 }}</td>
                   </tr>
                   {% endfor %}
                 </tbody>
