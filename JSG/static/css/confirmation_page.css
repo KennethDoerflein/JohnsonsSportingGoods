@@ -25,3 +25,6 @@ td {
 .shippingContainer h4 {
   text-decoration: underline;
 }
+.greenSection {
+  background-color: #276450 !important;
+}

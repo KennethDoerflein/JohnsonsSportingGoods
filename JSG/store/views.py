@@ -66,10 +66,7 @@ def orderConfirmation(request):
 
         userID = request.user.id
         orderID = (
-            "O-"
-            + str(userID)
-            + epoch_time
-            + str(randint(100000000000000, 999999999999999999))
+            "ORD" + str(userID) + epoch_time + str(randint(1000000000, 9999999999999))
         )
         cart_items = Cart.objects.filter(CID=userID)
         if not cart_items.exists():
