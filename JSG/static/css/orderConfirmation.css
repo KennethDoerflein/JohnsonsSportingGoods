@@ -1,0 +1,23 @@
+.orderContainer {
+  border-style: double;
+  border-width: 5px;
+  border-color: #414346;
+  padding: 2rem;
+  border-radius: 2rem;
+}
+.orderContainer img {
+  max-height: 2.5rem;
+  max-width: 2.5rem;
+  object-fit: contain;
+}
+.shippingContainer {
+  max-width: 40rem;
+  border-style: double;
+  border-width: 5px;
+  border-color: #414346;
+  padding: 1rem;
+  border-radius: 2rem;
+}
+.shippingContainer h4 {
+  text-decoration: underline;
+}

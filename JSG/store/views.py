@@ -66,8 +66,10 @@ def orderConfirmation(request):
         if not cart_items.exists():
             return redirect("cart")
         orderDetails = []
+        total_cost = 0
         for item in cart_items:
             currentProduct = Product.objects.get(id=item.PID)
+            total_cost += currentProduct.price * item.qty
             orderDetails.append(
                 {
                     "image": currentProduct.image,
@@ -82,12 +84,12 @@ def orderConfirmation(request):
                 currentProduct.quantity = newQty
                 currentProduct.save()
                 item.delete()
-
-        return render(
-            request,
-            "orderConfirmation.html",
-            {"order_details": orderDetails, "order_form": orderForm},
-        )
+        context = {
+            "order_details": orderDetails,
+            "order_form": orderForm,
+            "total_cost": total_cost,
+        }
+        return render(request, "orderConfirmation.html", context)
     return redirect("cart")
 
 
