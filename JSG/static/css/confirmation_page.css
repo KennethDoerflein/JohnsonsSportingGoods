@@ -19,12 +19,16 @@ td {
   border-style: double;
   border-width: 5px;
   border-color: #414346;
-  padding: 1rem;
+  /* padding: 1rem; */
   border-radius: 2rem;
 }
 .shippingContainer h4 {
   text-decoration: underline;
 }
-.greenSection {
-  background-color: #276450 !important;
+.orderContainer {
+  padding: 0px !important;
+  border-style: double;
+  border-width: 5px;
+  border-color: #414346;
+  border-radius: 2rem;
 }
