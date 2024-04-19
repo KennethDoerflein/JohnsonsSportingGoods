@@ -18,16 +18,17 @@
   <body>
     <div id="mainContainer">
       {% include './components/navbar.html' %}
-      <div class="container mt-5">
+      <div class="container mt-4">
         <h1 class="text-center mb-4">Order Confirmation</h1>
         <div class="container orderContainer">
-          <div class="container-fluid px-4 py-5">
-            <h5 class="text-center mb-0">Thanks for your order, {{ order_form.recipient }}!</h5>
-          </div>
-          <div class="container p-4">
-            <p class="fs-4 mb-3"><u>Order Details:</u></p>
-            <div class="text mb-0">Order ID: {{ order_id }}</div>
-            <div class="text mb-0">Order Date: {{ order_form.date }}</div>
+          <div class="container p-3">
+            <div class="container mb-5">
+              <div class="float-start">Order ID: {{ order_id }}</div>
+              <div class="float-end">Date: {{ order_form.date }}</div>
+            </div>
+
+            <div class="py-2"><h4 class="text-center">Thank you for your order, {{ order_form.recipient }}!</h4></div>
+
             <div class="table-responsive mt-3">
               <table class="table table-striped">
                 <thead>
@@ -50,7 +51,6 @@
                 </tbody>
               </table>
             </div>
-            <p class="fs-4"><u>Shipping Details:</u></p>
 
             <div class="row mt-4 container text-center mx-auto">
               <div class="col container shippingContainer py-2">
