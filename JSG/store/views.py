@@ -110,7 +110,7 @@ def login(request):
         else:
             form = LoginForm()
     else:
-        return redirect("/")  # change to account page when its done
+        return redirect("account.html")
     return render(request, "login.html", {"form": form})
 
 
@@ -127,7 +127,7 @@ def register(request):
         else:
             form = RegistrationForm()
     else:
-        return redirect("/")  # change to account page when its done
+        return redirect("account.html")
     return render(request, "register.html", {"form": form})
 
 
