@@ -35,6 +35,9 @@ def cart(request):
     total_cost = 0
     for cart_item in cart_items:
         product = Product.objects.get(id=cart_item.PID)
+        if product.quantity <= 0:
+            cart_item.delete()
+            continue
         total_cost += product.price * cart_item.qty
         cart_item_with_product_details = {
             "image": product.image,
