@@ -1,16 +1,27 @@
 table {
-    width: 100%;
-    border-collapse: collapse;
-    border: 2px solid #ccc;
-    margin-top: 5px;
+  width: 100%;
+  border-collapse: collapse;
+  border: 2px solid #ccc;
+  margin-top: 5px;
 }
 th {
-    background-color: #f2f2f2;
-    border: 2px solid #ccc;
-    padding: 8px;
-    text-align: left;
+  background-color: #f2f2f2;
+  border: 2px solid #ccc;
+  padding: 8px;
+  text-align: left;
 }
 td {
-    border: 2px solid #ccc;
-    padding: 8px;
+  border: 2px solid #ccc;
+  padding: 8px;
+}
+.shippingContainer {
+  max-width: 40rem;
+  border-style: double;
+  border-width: 5px;
+  border-color: #414346;
+  padding: 1rem;
+  border-radius: 2rem;
+}
+.shippingContainer h4 {
+  text-decoration: underline;
 }
