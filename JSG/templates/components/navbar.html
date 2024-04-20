@@ -15,7 +15,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link fs-3" aria-current="page" href="{% url 'index' %}"><strong>Home</strong></a>
+          <a class="nav-link fs-3" href="{% url 'index' %}"><strong>Home</strong></a>
         </li>
         <li class="nav-item me-0 pe-0">
           <a class="nav-link fs-3" href="{% url 'cart' %}"><strong>Cart</strong> <span class="me-0 translate-middle badge rounded-pill bg-danger"> {{ cart_count }} </span></a>
@@ -24,14 +24,14 @@
         <li class="nav-item">
           <a class="nav-link fs-3" href="{% url 'login' %}"><strong>Log in</strong></a>
         </li>
-        {% endif %} {% if request.user.is_authenticated %}
+        {% else %}
         <li class="nav-item">
           <a class="nav-link fs-3" href="{% url 'account' %}"><strong>Account</strong></a>
         </li>
         <li class="nav-item">
           <form action="{% url 'logout' %}" method="post">
             {% csrf_token %}
-            <button class="nav-link fs-3" type="submit"><strong>Log out</strong></button>
+            <button class="nav-link fs-3 ms-1" type="submit"><strong>Log out</strong></button>
           </form>
         </li>
         {% endif %}

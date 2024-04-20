@@ -1,4 +1,3 @@
-from random import randint
 from django.shortcuts import render, redirect
 from .models import Product, Cart
 from django.db.models import Sum
@@ -10,10 +9,11 @@ from django.contrib.auth import (
     authenticate,
     update_session_auth_hash,
 )
+from django.contrib.auth.forms import PasswordChangeForm
 from django.http import JsonResponse
 from datetime import date
 import time
-from django.contrib.auth.forms import PasswordChangeForm
+from random import randint
 
 
 def navbar_cart_count(request):
@@ -37,8 +37,12 @@ def cart(request):
     total_cost = 0
     for cart_item in cart_items:
         product = Product.objects.get(id=cart_item.PID)
+        if product.quantity <= 0:
+            cart_item.delete()
+            continue
         total_cost += product.price * cart_item.qty
         cart_item_with_product_details = {
+            "pid": product.id,
             "image": product.image,
             "name": product.name,
             "price": product.price,
@@ -71,6 +75,16 @@ def orderConfirmation(request):
             return redirect("cart")
         orderDetails = []
         total_cost = 0
+        cartERR = False
+        for cart_item in cart_items:
+            currentProduct = Product.objects.get(id=cart_item.PID)
+            newQty = currentProduct.quantity - cart_item.qty
+            if newQty < 0:
+                cartERR = True
+                cart_item.delete()
+        if cartERR:
+            return redirect("cart")
+
         for cart_item in cart_items:
             currentProduct = Product.objects.get(id=cart_item.PID)
             subtotal = currentProduct.price * cart_item.qty
@@ -115,7 +129,7 @@ def login(request):
         else:
             form = LoginForm()
     else:
-        return redirect("/")  # change to account page when its done
+        return redirect("account")
     return render(request, "login.html", {"form": form})
 
 
@@ -132,7 +146,7 @@ def register(request):
         else:
             form = RegistrationForm()
     else:
-        return redirect("/")  # change to account page when its done
+        return redirect("account")
     return render(request, "register.html", {"form": form})
 
 
@@ -166,6 +180,19 @@ def add_to_cart(request):
     return redirect("index")
 
 
+def remove_from_cart(request):
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            customer_id = request.user.id
+            product_id = request.POST.get("product_id")
+            if product_id:
+                item = Cart.objects.get(CID=customer_id, PID=product_id)
+                item.delete()
+        else:
+            return redirect("login")
+    return redirect("cart")
+
+
 def checkTaken(request):
     if request.GET:
         username = request.GET.get("username")
@@ -191,5 +218,5 @@ def account(request):
         else:
             form = PasswordChangeForm(user=request.user)
     else:
-        return redirect("/")  # change to account page when its done
+        return redirect("login")
     return render(request, "account.html", {"form": form})
