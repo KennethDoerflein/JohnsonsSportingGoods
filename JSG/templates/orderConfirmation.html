@@ -5,26 +5,77 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JSG</title>
-    <link rel="stylesheet" href="{% static '/css/navbar_footer.css' %}" />
-    <link rel="icon" type="image/x-icon" href="{% static '/assets/johnsonLogo.png' %}" />
+    <link rel="stylesheet" href="{% static 'css/navbar_footer.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/confirmation_page.css' %}" />
+
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/johnsonLogo.png' %}" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
-    />
+      crossorigin="anonymous" />
   </head>
   <body>
     <div id="mainContainer">
       {% include './components/navbar.html' %}
-      I am the order confirmation page
+      <div class="container mt-4">
+        <h1 class="text-center mb-4">Order Confirmation</h1>
+        <div class="container orderContainer">
+          <div class="container p-3">
+            <div class="container mb-5">
+              <div class="float-start">Order ID: {{ order_id }}</div>
+              <div class="float-end">Date: {{ order_form.date }}</div>
+            </div>
+
+            <div class="py-2"><h4 class="text-center">Thank you for your order, {{ order_form.recipient }}!</h4></div>
+
+            <div class="table-responsive mt-3">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th class="ps-3" scope="col">Product Name</th>
+                    <th scope="col" class="text-center">Price</th>
+                    <th scope="col" class="text-center">Quantity</th>
+                    <th scope="col" class="text-center">Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for item in order_details %}
+                  <tr>
+                    <td class="ps-3">{{ item.name }}</td>
+                    <td class="text-center">${{ item.price|floatformat:2 }}</td>
+                    <td class="text-center">{{ item.qty }}</td>
+                    <td class="text-center">${{ item.subtotal|floatformat:2 }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            <div class="row mt-4 container text-center mx-auto">
+              <div class="col container shippingContainer py-2">
+                <h4 class="mb-3">Shipping Address</h4>
+                <h6>{{ order_form.recipient }}</h6>
+                <h6>{{ order_form.shippingAddr }}</h6>
+              </div>
+              <div class="ms-4 col container shippingContainer py-2">
+                <h4 class="mb-3">Billing Address</h4>
+                <h6>{{ order_form.billingName }}</h6>
+                <h6>{{ order_form.billingAddr }}</h6>
+              </div>
+            </div>
+          </div>
+
+          <div class="container px-4 pb-5 my-3">
+            <h5 class="float-end">Total: <span class="h2 ms-3">${{ total_cost|floatformat:2 }}</span></h5>
+          </div>
+        </div>
+      </div>
     </div>
     {% include './components/footer.html' %}
-
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
+      crossorigin="anonymous"></script>
   </body>
 </html>
