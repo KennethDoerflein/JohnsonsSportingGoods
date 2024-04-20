@@ -16,10 +16,16 @@
   </head>
   <body>
     <div id="mainContainer">
-      {% include './components/navbar.html' %}
+      {% if request.session.oos %}
+      <div class="text-center mb-0 alert alert-warning alert-dismissible fade show" role="alert">
+        One or many items are now out of stock or quantities have changed.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endif %} {% include './components/navbar.html' %}
       <h1 class="text-center">Your Cart</h1>
       <hr />
-      {% if request.user.is_authenticated %} {% if cart_items %}
+      {% if request.user.is_authenticated %} 
+      {% if cart_items %}
       <div class="table-responsive">
         <table class="mx-auto table table-sm table-borderless w-50">
           <thead>

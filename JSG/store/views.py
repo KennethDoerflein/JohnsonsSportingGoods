@@ -35,11 +35,22 @@ def cart(request):
 
     cart_items_with_product_details = []
     total_cost = 0
+    request.session["oos"] = False
+    if "oosORD" in request.session and request.session["oosORD"]:
+        request.session["oos"] = True
+        request.session["oosORD"] = False
+
     for cart_item in cart_items:
         product = Product.objects.get(id=cart_item.PID)
         if product.quantity <= 0:
             cart_item.delete()
+            request.session["oos"] = True
             continue
+        elif product.quantity < cart_item.qty:
+            cart_item.qty = product.quantity
+            request.session["oos"] = True
+            cart_item.save()
+
         total_cost += product.price * cart_item.qty
         cart_item_with_product_details = {
             "pid": product.id,
@@ -76,10 +87,11 @@ def orderConfirmation(request):
         orderDetails = []
         total_cost = 0
         cartERR = False
+        request.session["oosORD"] = False
         for cart_item in cart_items:
             currentProduct = Product.objects.get(id=cart_item.PID)
             newQty = currentProduct.quantity - cart_item.qty
-            if currentProduct.quantity == 0:
+            if currentProduct.quantity <= 0:
                 cartERR = True
                 cart_item.delete()
             elif newQty < 0:
@@ -87,6 +99,7 @@ def orderConfirmation(request):
                 cart_item.save()
                 cartERR = True
         if cartERR:
+            request.session["oosORD"] = True
             return redirect("cart")
 
         for cart_item in cart_items:
