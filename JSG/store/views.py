@@ -42,6 +42,7 @@ def cart(request):
             continue
         total_cost += product.price * cart_item.qty
         cart_item_with_product_details = {
+            "pid": product.id,
             "image": product.image,
             "name": product.name,
             "price": product.price,
@@ -177,6 +178,19 @@ def add_to_cart(request):
         else:
             return redirect("login")
     return redirect("index")
+
+
+def remove_from_cart(request):
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            customer_id = request.user.id
+            product_id = request.POST.get("product_id")
+            if product_id:
+                item = Cart.objects.get(CID=customer_id, PID=product_id)
+                item.delete()
+        else:
+            return redirect("login")
+    return redirect("cart")
 
 
 def checkTaken(request):
