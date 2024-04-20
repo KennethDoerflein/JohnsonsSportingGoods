@@ -1,4 +1,3 @@
-from random import randint
 from django.shortcuts import render, redirect
 from .models import Product, Cart
 from django.db.models import Sum
@@ -10,10 +9,11 @@ from django.contrib.auth import (
     authenticate,
     update_session_auth_hash,
 )
+from django.contrib.auth.forms import PasswordChangeForm
 from django.http import JsonResponse
 from datetime import date
 import time
-from django.contrib.auth.forms import PasswordChangeForm
+from random import randint
 
 
 def navbar_cart_count(request):
@@ -74,6 +74,16 @@ def orderConfirmation(request):
             return redirect("cart")
         orderDetails = []
         total_cost = 0
+        cartERR = False
+        for cart_item in cart_items:
+            currentProduct = Product.objects.get(id=cart_item.PID)
+            newQty = currentProduct.quantity - cart_item.qty
+            if newQty < 0:
+                cartERR = True
+                cart_item.delete()
+        if cartERR:
+            return redirect("cart")
+
         for cart_item in cart_items:
             currentProduct = Product.objects.get(id=cart_item.PID)
             subtotal = currentProduct.price * cart_item.qty
@@ -118,7 +128,7 @@ def login(request):
         else:
             form = LoginForm()
     else:
-        return redirect("account.html")
+        return redirect("account")
     return render(request, "login.html", {"form": form})
 
 
@@ -135,7 +145,7 @@ def register(request):
         else:
             form = RegistrationForm()
     else:
-        return redirect("account.html")
+        return redirect("account")
     return render(request, "register.html", {"form": form})
 
 
@@ -194,5 +204,5 @@ def account(request):
         else:
             form = PasswordChangeForm(user=request.user)
     else:
-        return redirect("/")  # change to account page when its done
+        return redirect("index")
     return render(request, "account.html", {"form": form})
