@@ -204,5 +204,5 @@ def account(request):
         else:
             form = PasswordChangeForm(user=request.user)
     else:
-        return redirect("index")
+        return redirect("login")
     return render(request, "account.html", {"form": form})
