@@ -19,61 +19,59 @@
       {% include './components/navbar.html' %}
       <h1 class="text-center">Your Cart</h1>
       <hr />
-      {% if request.user.is_authenticated %} 
-        {% if cart_items %}
-        <div class="table-responsive">
-          <table class="mx-auto table table-sm table-borderless w-50">
-            <thead>
-              <tr>
-                <th></th>
-                <th>Item</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Subtotal</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for cart_item in cart_items %}
-              <tr>
-                <td class="text-center"><img src="{% static cart_item.image %}" /></td>
-                <td>{{ cart_item.name }}</td>
-                <td>${{ cart_item.price|floatformat:2 }}</td>
-                <td>{{ cart_item.qty }}</td>
-                <td>${{ cart_item.subtotal|floatformat:2 }}</td>
-              </tr>
-              {% endfor %}
-              <td colspan="5"><hr /></td>
-              <tr>
-                <td colspan="4"><strong>Total:</strong></td>
-                <td><strong>${{ total_cost|floatformat:2 }}</strong></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      {% if request.user.is_authenticated %} {% if cart_items %}
+      <div class="table-responsive">
+        <table class="mx-auto table table-sm table-borderless w-50">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Item</th>
+              <th class="text-center">Price</th>
+              <th class="text-center">Quantity</th>
+              <th class="text-center">Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for cart_item in cart_items %}
+            <tr>
+              <td class="text-center"><img src="{% static cart_item.image %}" /></td>
+              <td>{{ cart_item.name }}</td>
+              <td class="text-center">${{ cart_item.price|floatformat:2 }}</td>
+              <td class="text-center">{{ cart_item.qty }}</td>
+              <td class="text-center">${{ cart_item.subtotal|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+            <td colspan="5"><hr /></td>
+            <tr>
+              <td colspan="4"><strong>Total:</strong></td>
+              <td><strong>${{ total_cost|floatformat:2 }}</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-        <div id="checkoutContainer" class="mx-auto mt-5">
-          <form action="{% url 'orderConfirmation' %}" method="POST" class="info">
-            {% csrf_token %}
-            <label>Recipient Name:</label>
-            <input type="text" class="form-control mb-4" id="recipient" name="recipient" required />
-            <label>Shipping Address:</label>
-            <textarea class="form-control mb-4" id="shipping_addr" name="shipping_addr" rows="3" required></textarea>
-            <label>Billing Name:</label>
-            <input type="text" class="form-control mb-4" id="billing_name" name="billing_name" required />
-            <label>Billing Address:</label>
-            <textarea class="form-control mb-4" id="billing_addr" name="billing_addr" rows="3" required></textarea>
-            <div class="row mx-5">
-              <button type="submit" class="btn btn-primary">Submit Purchase Order</button>
-            </div>
-          </form>
-        </div>
-        {% else %}
-        <h1 class="text-center">Your cart is empty</h1>
-        <div class="text-center">
-          <a class="btn btn-info mt-2 btn-lg" href="{% url 'index' %}" type="button">View Products</a>
-        </div>
-        {% endif %} 
+      <div id="checkoutContainer" class="mx-auto mt-5">
+        <form action="{% url 'orderConfirmation' %}" method="POST" class="info">
+          {% csrf_token %}
+          <label>Recipient Name:</label>
+          <input type="text" class="form-control mb-4" id="recipient" name="recipient" required />
+          <label>Shipping Address:</label>
+          <textarea class="form-control mb-4" id="shipping_addr" name="shipping_addr" rows="3" required></textarea>
+          <label>Billing Name:</label>
+          <input type="text" class="form-control mb-4" id="billing_name" name="billing_name" required />
+          <label>Billing Address:</label>
+          <textarea class="form-control mb-4" id="billing_addr" name="billing_addr" rows="3" required></textarea>
+          <div class="row mx-5">
+            <button type="submit" class="btn btn-primary">Submit Purchase Order</button>
+          </div>
+        </form>
+      </div>
       {% else %}
+      <h1 class="text-center">Your cart is empty</h1>
+      <div class="text-center">
+        <a class="btn btn-info mt-2 btn-lg" href="{% url 'index' %}" type="button">View Products</a>
+      </div>
+      {% endif %} {% else %}
       <h1 class="text-center">Please Sign in to Access the Cart</h1>
       <div class="text-center">
         <a class="btn btn-info mt-2 btn-lg" href="{% url 'login' %}" type="button">Log in</a>
@@ -85,6 +83,5 @@
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"></script>
-      
   </body>
 </html>
