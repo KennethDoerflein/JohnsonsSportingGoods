@@ -1,3 +1,4 @@
+from random import randint
 from django.shortcuts import render, redirect
 from .models import Product, Cart
 from django.db.models import Sum
@@ -11,6 +12,7 @@ from django.contrib.auth import (
 )
 from django.http import JsonResponse
 from datetime import date
+import time
 from django.contrib.auth.forms import PasswordChangeForm
 
 
@@ -53,6 +55,7 @@ def cart(request):
 def orderConfirmation(request):
     if request.method == "POST" and request.user.is_authenticated:
         form = request.POST
+        epoch_time = str(int(time.time()))
         orderForm = {
             "shippingAddr": form.get("shipping_addr"),
             "recipient": form.get("recipient"),
@@ -62,32 +65,37 @@ def orderConfirmation(request):
         }
 
         userID = request.user.id
+        orderID = str(userID) + epoch_time + str(randint(10000, 99999))
         cart_items = Cart.objects.filter(CID=userID)
         if not cart_items.exists():
             return redirect("cart")
         orderDetails = []
-        for item in cart_items:
-            currentProduct = Product.objects.get(id=item.PID)
+        total_cost = 0
+        for cart_item in cart_items:
+            currentProduct = Product.objects.get(id=cart_item.PID)
+            subtotal = currentProduct.price * cart_item.qty
+            total_cost += subtotal
             orderDetails.append(
                 {
                     "image": currentProduct.image,
                     "name": currentProduct.name,
                     "price": currentProduct.price,
-                    "qty": item.qty,
-                    "subtotal": currentProduct.price * item.qty,
+                    "qty": cart_item.qty,
+                    "subtotal": subtotal,
                 }
             )
-            newQty = currentProduct.quantity - item.qty
+            newQty = currentProduct.quantity - cart_item.qty
             if newQty >= 0:
                 currentProduct.quantity = newQty
                 currentProduct.save()
-                item.delete()
-
-        return render(
-            request,
-            "orderConfirmation.html",
-            {"order_details": orderDetails, "order_form": orderForm},
-        )
+                cart_item.delete()
+        context = {
+            "order_details": orderDetails,
+            "order_form": orderForm,
+            "total_cost": total_cost,
+            "order_id": orderID,
+        }
+        return render(request, "orderConfirmation.html", context)
     return redirect("cart")
 
 
