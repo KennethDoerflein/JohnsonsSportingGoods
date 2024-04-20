@@ -79,9 +79,13 @@ def orderConfirmation(request):
         for cart_item in cart_items:
             currentProduct = Product.objects.get(id=cart_item.PID)
             newQty = currentProduct.quantity - cart_item.qty
-            if newQty < 0:
+            if currentProduct.quantity == 0:
                 cartERR = True
                 cart_item.delete()
+            elif newQty < 0:
+                cart_item.qty = currentProduct.quantity
+                cart_item.save()
+                cartERR = True
         if cartERR:
             return redirect("cart")
 
