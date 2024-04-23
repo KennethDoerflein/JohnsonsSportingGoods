@@ -2,7 +2,7 @@ const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]
 const tooltipList = [...tooltipTriggerList].map((tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl));
 
 var emailUnused = false;
-var usernameUnused = false;
+var usernameGood = false;
 
 document.getElementById("id_first_name").onkeyup = validateForm;
 document.getElementById("id_last_name").onkeyup = validateForm;
@@ -37,7 +37,7 @@ function validateForm() {
     password2.value !== "" &&
     password1.value === password2.value &&
     emailUnused &&
-    usernameUnused
+    usernameGood
   ) {
     bootstrap.Tooltip.getInstance(toolTip).disable();
     registerButton.removeAttribute("disabled");
@@ -49,24 +49,31 @@ function validateForm() {
 
 function checkUsername(self) {
   var usernameHelpText = document.getElementById("id_username_helptext");
+  if (self.target.value !== "" && !RegExp(/^[A-Za-z0-9@.+\-_]{1,150}$/).test(self.target.value)) {
+    setInputStyling("bad", self.target, usernameHelpText);
+    usernameHelpText.innerText = "ERROR: Max of 150 characters. Letters, digits and @/./+/-/_ only.";
+    usernameGood = false;
+    validateForm();
+    return;
+  }
   fetch("checkTaken?username=" + self.target.value)
-    .then((response) => response.text())
-    .then((text) => {
-      var status = JSON.parse(text)["used"];
+    .then((response) => response.json())
+    .then((responseJSON) => {
+      var status = responseJSON["used"];
       if (self.target.value !== "") {
         if (status === "true") {
           setInputStyling("bad", self.target, usernameHelpText);
-          usernameUnused = false;
+          usernameGood = false;
           usernameHelpText.innerText = "That username is already in use";
         } else {
-          usernameUnused = true;
+          usernameGood = true;
           setInputStyling("good", self.target, usernameHelpText);
           usernameHelpText.innerText = "That looks good";
         }
       } else {
         setInputStyling("original", self.target, usernameHelpText);
         usernameHelpText.innerText = "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.";
-        usernameUnused = false;
+        usernameGood = false;
       }
       validateForm();
     });
@@ -88,9 +95,9 @@ function checkEmail(self) {
     }
   } else {
     fetch("checkTaken?email=" + self.target.value)
-      .then((response) => response.text())
-      .then((text) => {
-        var status = JSON.parse(text)["used"];
+      .then((response) => response.json())
+      .then((responseJSON) => {
+        var status = responseJSON["used"];
         if (self.target.value !== "") {
           if (status === "true") {
             setInputStyling("bad", self.target, emailHelpText);
