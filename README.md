@@ -6,15 +6,16 @@
 **Windows**
 **Initial Setup and Use**
   1. Unzip file
-  2. Open JohnsonsSportingGoods (`JohnsonsSportingGoods/`) in VSCode
+  2. Open JohnsonsSportingGoods-main (`JohnsonsSportingGoods-main\JohnsonsSportingGoods-main`) in VSCode
   3. Navigate to the terminal
-  4. In terminal make sure you are in `JohnsonsSportingGoods/` (the directory with manage.py check with `ls`) 
+  4. In terminal make sure you are in `JohnsonsSportingGoods-main\JohnsonsSportingGoods-main/` (the directory with JSG/ check with `ls`) 
   5. Create the virtual environment: `py -m venv JSG_venv`
   6. Activate the virtual environment: `JSG_venv\Scripts\activate`
   7. Install requirements: `pip install -r requirements.txt`
-  8. Apply migrations: `py manage.py migrate`
-  9. Start Django server: `py manage.py runserver`
-  10. Visit `http://127.0.0.1:8000`
+  8. Switch to JSG directory `cd JSG`
+  9. Apply migrations: `py manage.py migrate`
+  10. Start Django server: `py manage.py runserver`
+  11. Visit `http://127.0.0.1:8000`
 **Normal use**
   1. Activate the virtual environment `JSG_venv\Scripts\activate`
   2. Start Django server: `py manage.py runserver`
@@ -23,15 +24,16 @@
 **MacOS/Linux**
 **Initial Setup and Use**
   1. Unzip file
-  2. Open JohnsonsSportingGoods (`JohnsonsSportingGoods/`) in VSCode
+  2. Open JohnsonsSportingGoods-main (`JohnsonsSportingGoods-main\JohnsonsSportingGoods-main/`) in VSCode
   3. Navigate to the terminal
-  4. In terminal make sure you are in `JohnsonsSportingGoods/` (the directory with manage.py check with `ls`) 
+  4. In terminal make sure you are in `JohnsonsSportingGoods-main\JohnsonsSportingGoods-main/` (the directory with JSG/ check with `ls`) 
   5. Create the virtual environment: `python3 -m venv JSG_venv`
   6. Activate the virtual environment: `source JSG_venv/bin/activate`
   7. Install requirements: `pip install -r requirements.txt`
-  8. Apply migrations: `python3 manage.py migrate`
-  9. Start Django server: `python3 manage.py runserver`
-  10. Visit `http://127.0.0.1:8000`
+  8. Switch to JSG directory `cd JSG`
+  9. Apply migrations: `python3 manage.py migrate`
+  10. Start Django server: `python3 manage.py runserver`
+  11. Visit `http://127.0.0.1:8000`
 **Normal use**
   1. Activate the virtual environment `source JSG_venv/bin/activate`
   2. Start Django server: `python3 manage.py runserver`
@@ -48,9 +50,10 @@
   5. In the 'JohnsonsSportingGoods' directory create the virtual environment: `py -m venv JSG_venv`
   6. Activate the virtual environment: `JSG_venv\Scripts\activate`
   7. Install requirements: `pip install -r requirements.txt`
-  8. Apply migrations: `py manage.py migrate`
-  9. Test Django server: `py manage.py runserver`
-  10. Quit server: ctrl + c
+  8. Switch to JSG directory `cd JSG`
+  9. Apply migrations: `py manage.py migrate`
+  10. Test Django server: `py manage.py runserver`
+  11. Quit server: ctrl + c
 
   **Normal use (list may not be complete)**
   1. Activate the virtual environment `JSG_venv\Scripts\activate`
