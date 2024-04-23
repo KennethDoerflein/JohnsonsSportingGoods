@@ -3,7 +3,7 @@ const tooltipList = [...tooltipTriggerList].map((tooltipTriggerEl) => new bootst
 
 var emailUnused = false;
 var usernameGood = false;
-const emailRegex = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/);
+const emailRegex = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9]{2,}(?:[a-zA-Z0-9-]{2,}[a-zA-Z0-9]{2,})?)+$/);
 
 document.getElementById("id_first_name").onkeyup = validateForm;
 document.getElementById("id_last_name").onkeyup = validateForm;
