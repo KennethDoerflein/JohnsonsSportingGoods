@@ -3,6 +3,7 @@ const tooltipList = [...tooltipTriggerList].map((tooltipTriggerEl) => new bootst
 
 var emailUnused = false;
 var usernameGood = false;
+const emailRegex = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/);
 
 document.getElementById("id_first_name").onkeyup = validateForm;
 document.getElementById("id_last_name").onkeyup = validateForm;
@@ -25,12 +26,12 @@ function validateForm() {
   var toolTip = document.getElementById("ToolTipRegister");
   var registerButton = document.getElementById("registerButton");
 
-  var emailRegex = RegExp(/^\w+([\.-]?(?=(\w+))\1)*@\w+([\.-]?(?=(\w+))\1)*(\.\w{2,3})+$/).test(email.value);
+  var emailTest = emailRegex.test(email.value);
 
   if (
     username !== "" &&
     email.value !== "" &&
-    emailRegex &&
+    emailTest &&
     fName !== "" &&
     lName !== "" &&
     password1.value !== "" &&
@@ -47,31 +48,32 @@ function validateForm() {
   }
 }
 
-function checkUsername(self) {
+function checkUsername() {
+  const username = document.getElementById("id_username");
   var usernameHelpText = document.getElementById("id_username_helptext");
-  if (self.target.value !== "" && !RegExp(/^[A-Za-z0-9@.+\-_]{1,150}$/).test(self.target.value)) {
-    setInputStyling("bad", self.target, usernameHelpText);
+  if (username.value !== "" && !RegExp(/^[A-Za-z0-9@.+\-_]{1,150}$/).test(username.value)) {
+    setInputStyling("bad", username, usernameHelpText);
     usernameHelpText.innerText = "ERROR: Max of 150 characters. Letters, digits and @/./+/-/_ only.";
     usernameGood = false;
     validateForm();
     return;
   }
-  fetch("checkTaken?username=" + self.target.value)
+  fetch("checkTaken?username=" + username.value)
     .then((response) => response.json())
     .then((responseJSON) => {
       var status = responseJSON["used"];
-      if (self.target.value !== "") {
+      if (username.value !== "") {
         if (status === "true") {
-          setInputStyling("bad", self.target, usernameHelpText);
+          setInputStyling("bad", username, usernameHelpText);
           usernameGood = false;
           usernameHelpText.innerText = "That username is already in use";
         } else {
           usernameGood = true;
-          setInputStyling("good", self.target, usernameHelpText);
+          setInputStyling("good", username, usernameHelpText);
           usernameHelpText.innerText = "That looks good";
         }
       } else {
-        setInputStyling("original", self.target, usernameHelpText);
+        setInputStyling("original", username, usernameHelpText);
         usernameHelpText.innerText = "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.";
         usernameGood = false;
       }
@@ -80,31 +82,32 @@ function checkUsername(self) {
   validateForm();
 }
 
-function checkEmail(self) {
+function checkEmail() {
+  const email = document.getElementById("id_email");
   var emailHelpText = document.getElementById("id_email_helptext");
-  var emailRegex = RegExp(/^\w+([\.-]?(?=(\w+))\1)*@\w+([\.-]?(?=(\w+))\1)*(\.\w{2,3})+$/).test(self.target.value);
-  if (!emailRegex) {
-    if (self.target.value === "") {
+  var emailTest = emailRegex.test(email.value);
+  if (!emailTest) {
+    if (email.value === "") {
       emailUnused = false;
-      setInputStyling("original", self.target, emailHelpText);
+      setInputStyling("original", email, emailHelpText);
       emailHelpText.innerText = "Required: Enter a email in the format example@example.com";
     } else {
       emailUnused = true;
-      setInputStyling("bad", self.target, emailHelpText);
+      setInputStyling("bad", email, emailHelpText);
       emailHelpText.innerText = "Email is not in the correct format, ex: example@example.com";
     }
   } else {
-    fetch("checkTaken?email=" + self.target.value)
+    fetch("checkTaken?email=" + email.value)
       .then((response) => response.json())
       .then((responseJSON) => {
         var status = responseJSON["used"];
-        if (self.target.value !== "") {
+        if (email.value !== "") {
           if (status === "true") {
-            setInputStyling("bad", self.target, emailHelpText);
+            setInputStyling("bad", email, emailHelpText);
             emailUnused = false;
             emailHelpText.innerText = "That email is already in use";
-          } else if (emailRegex) {
-            setInputStyling("good", self.target, emailHelpText);
+          } else if (emailTest) {
+            setInputStyling("good", email, emailHelpText);
             emailUnused = true;
             emailHelpText.innerText = "That looks good";
           }
@@ -164,3 +167,8 @@ function setInputStyling(used, input, helpText) {
     helpText.classList.add("helptext");
   }
 }
+window.onload = function () {
+  checkUsername();
+  checkEmail();
+  validateForm();
+};
