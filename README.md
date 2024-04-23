@@ -16,6 +16,7 @@
   9. Apply migrations: `py manage.py migrate`
   10. Start Django server: `py manage.py runserver`
   11. Visit `http://127.0.0.1:8000`
+      
 **Normal use**
   1. Activate the virtual environment `JSG_venv\Scripts\activate`
   2. Start Django server: `py manage.py runserver`
@@ -34,6 +35,7 @@
   9. Apply migrations: `python3 manage.py migrate`
   10. Start Django server: `python3 manage.py runserver`
   11. Visit `http://127.0.0.1:8000`
+      
 **Normal use**
   1. Activate the virtual environment `source JSG_venv/bin/activate`
   2. Start Django server: `python3 manage.py runserver`
