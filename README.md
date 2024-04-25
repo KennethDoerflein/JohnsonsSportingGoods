@@ -60,7 +60,7 @@
   11. Quit server: ctrl + c
 
   **Normal use (list may not be complete)**
-  1. Open JohnsonsSportingGoods-main (`JohnsonsSportingGoods-main\JohnsonsSportingGoods-main\`) in VSCode
+  1. Open JohnsonsSportingGoods (`JohnsonsSportingGoods`) in VSCode
   2. Activate the virtual environment `JSG_venv\Scripts\activate`
   3. Start Django server: `py JSG\manage.py runserver`
   4. Visit `http://127.0.0.1:8000`
